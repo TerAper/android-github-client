@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/loginFragment">
+
+    <!-- Login -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.yourname.githubclient.presentation.login.LoginFragment"
+        android:label="Login">
+        <action
+            android:id="@+id/action_loginFragment_to_mainFlowFragment"
+            app:destination="@id/mainFlowFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <!-- Main Flow -->
+    <fragment
+        android:id="@+id/mainFlowFragment"
+        android:name="com.yourname.githubclient.presentation.main.MainFlowFragment"
+        android:label="Main Flow">
+
+        <!-- Arguments for user info -->
+        <argument
+            android:name="login"
+            app:argType="string" />
+        <argument
+            android:name="avatarUrl"
+            app:argType="string"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/action_mainFlowFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"/>
+    </fragment>
+
+    <!-- Settings -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.yourname.githubclient.presentation.settings.SettingsFragment"
+        android:label="Settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/mainFlowFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+</navigation>
