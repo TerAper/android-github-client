@@ -3,6 +3,7 @@ package com.yourname.githubclient.presentation.login
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -14,29 +15,25 @@ import kotlinx.coroutines.launch
 
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
-    override val viewModel: LoginViewModel by lazy {
+    override val viewModel: LoginViewModel by viewModels {
         LoginViewModelFactory(ServiceLocator.loginUseCase)
-            .create(LoginViewModel::class.java)
     }
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentLoginBinding.inflate(inflater, container, false)
 
     override fun onViewReady() {
-
         binding.btnLogin.setOnClickListener {
-            viewModel.login(binding.etToken.text.toString().trim())
+            val input = binding.etUsername.text.toString().trim()  // username or email
+            val token = binding.etToken.text.toString().trim()
+            viewModel.login(input, token)
         }
 
-        // Observe login success using Flow
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.loginSuccess.collect { user ->
+                viewModel.loginSuccess.collect {
                     findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToMainFlowFragment(
-                            login = user.username,
-                            avatarUrl = user.avatarUrl
-                        )
+                        LoginFragmentDirections.actionLoginToMainFlow()
                     )
                 }
             }

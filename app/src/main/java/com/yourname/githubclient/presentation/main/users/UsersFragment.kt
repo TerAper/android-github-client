@@ -5,11 +5,17 @@ import android.view.ViewGroup
 import com.yourname.githubclient.databinding.FragmentUsersBinding
 import com.yourname.githubclient.presentation.base.BaseFragment
 
-class UsersFragment(override val viewModel: UsersViewModel) : BaseFragment<FragmentUsersBinding, UsersViewModel>() {
+class UsersFragment : BaseFragment<FragmentUsersBinding, UsersViewModel>() {
+
+    override val viewModel: UsersViewModel by lazy { UsersViewModel() }
+
     override fun getViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentUsersBinding {
-        TODO("Not yet implemented")
+    ): FragmentUsersBinding =
+        FragmentUsersBinding.inflate(inflater, container, false)
+
+    override fun onViewReady() {
+        // TODO: logic later
     }
 }

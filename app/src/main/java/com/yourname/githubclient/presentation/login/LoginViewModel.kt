@@ -3,42 +3,35 @@ package com.yourname.githubclient.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.yourname.githubclient.domain.model.User
-import com.yourname.githubclient.domain.usecase.LoginUseCase
+import com.yourname.githubclient.domain.usecase.login.LoginUseCase
 import com.yourname.githubclient.presentation.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+
 class LoginViewModel(
     private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
 
-    private val _loginSuccess = MutableSharedFlow<User>()
+    private val _loginSuccess = MutableSharedFlow<Unit>()
     val loginSuccess = _loginSuccess.asSharedFlow()
 
-    fun login(token: String) {
-        if (token.isBlank()) {
-            setError("Token cannot be empty")
-            return
-        }
+    fun login(input: String, token: String) {
+        if (input.isBlank()) { setError("Username or Email cannot be empty"); return }
+        if (token.isBlank()) { setError("Token cannot be empty"); return }
 
         viewModelScope.launch {
             setLoading(true)
-
-            val result = loginUseCase(token)
-
+            val result = loginUseCase(input, token)
             setLoading(false)
 
             result.fold(
-                onSuccess = { user ->
-                    _loginSuccess.emit(user)
-                },
+                onSuccess = { _loginSuccess.emit(Unit) },
                 onFailure = { setError(it.message ?: "Login failed") }
             )
         }
     }
 }
-
 
 class LoginViewModelFactory(
     private val loginUseCase: LoginUseCase

@@ -15,36 +15,44 @@ class DataStoreManager(context: Context) {
 
     companion object {
         private val KEY_TOKEN = stringPreferencesKey("token")
+        private val KEY_USERNAME = stringPreferencesKey("username")
         private val KEY_THEME = booleanPreferencesKey("is_dark_mode")
+        private val KEY_AVATAR_URI = stringPreferencesKey("avatar_uri")
+        private val KEY_IS_LOGGED_IN = booleanPreferencesKey("is_logged_in")
     }
 
-    val token: Flow<String?> = appContext.dataStore.data.map { prefs ->
-        prefs[KEY_TOKEN]
+    val token: Flow<String?> = appContext.dataStore.data.map { it[KEY_TOKEN] }
+    val username: Flow<String?> = appContext.dataStore.data.map { it[KEY_USERNAME] }
+    val themeFlow: Flow<Boolean> = appContext.dataStore.data.map { it[KEY_THEME] ?: false }
+    val avatarUriFlow: Flow<String?> = appContext.dataStore.data.map { it[KEY_AVATAR_URI] }
+    val isLoggedInFlow: Flow<Boolean> = appContext.dataStore.data.map { it[KEY_IS_LOGGED_IN] ?: false }
+
+    suspend fun saveLoginState(token: String, username: String) {
+        appContext.dataStore.edit {
+            it[KEY_TOKEN] = token
+            it[KEY_USERNAME] = username
+            it[KEY_IS_LOGGED_IN] = true
+        }
     }
 
-    val themeFlow: Flow<Boolean> = appContext.dataStore.data.map { prefs ->
-        prefs[KEY_THEME] ?: false
-    }
-
-    suspend fun saveToken(token: String) {
-        appContext.dataStore.edit { it[KEY_TOKEN] = token }
+    suspend fun clearLoginState() {
+        appContext.dataStore.edit {
+            it.remove(KEY_TOKEN)
+            it.remove(KEY_USERNAME)
+            it.remove(KEY_AVATAR_URI)
+            it[KEY_IS_LOGGED_IN] = false
+        }
     }
 
     suspend fun saveTheme(isDark: Boolean) {
         appContext.dataStore.edit { it[KEY_THEME] = isDark }
     }
 
-    suspend fun clearToken() {
-        appContext.dataStore.edit { it.remove(KEY_TOKEN) }
+    suspend fun saveAvatar(uri: String) {
+        appContext.dataStore.edit { it[KEY_AVATAR_URI] = uri }
     }
 
-
-
-    suspend fun clearAllExceptTheme() {
-        appContext.dataStore.edit { prefs ->
-            val theme = prefs[KEY_THEME] ?: false
-            prefs.clear()
-            prefs[KEY_THEME] = theme
-        }
+    suspend fun clearAvatar() {
+        appContext.dataStore.edit { it.remove(KEY_AVATAR_URI) }
     }
 }

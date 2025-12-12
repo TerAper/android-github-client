@@ -1,24 +1,21 @@
 package com.yourname.githubclient.presentation.settings
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.yourname.githubclient.domain.usecase.theme.GetThemeUseCase
+import com.yourname.githubclient.domain.usecase.theme.UpdateThemeUseCase
 import com.yourname.githubclient.presentation.base.BaseViewModel
-import com.yourname.githubclient.domain.usecase.GetThemeUseCase
-import com.yourname.githubclient.domain.usecase.UpdateThemeUseCase
-import com.yourname.githubclient.domain.usecase.LogoutUseCase
 import com.yourname.githubclient.util.ThemeManager
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val getThemeUseCase: GetThemeUseCase,
-    private val updateThemeUseCase: UpdateThemeUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val updateThemeUseCase: UpdateThemeUseCase
 ) : BaseViewModel() {
 
-    val isDark = getThemeUseCase()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+    val isDark: Flow<Boolean> = getThemeUseCase()
 
     fun changeTheme(newValue: Boolean) {
         viewModelScope.launch {
@@ -27,7 +24,17 @@ class SettingsViewModel(
         }
     }
 
-    fun logout() {
-        viewModelScope.launch { logoutUseCase() }
+    /** Factory for SettingsViewModel **/
+    class Factory(
+        private val getThemeUseCase: GetThemeUseCase,
+        private val updateThemeUseCase: UpdateThemeUseCase
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(SettingsViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return SettingsViewModel(getThemeUseCase, updateThemeUseCase) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }

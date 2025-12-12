@@ -1,4 +1,4 @@
-package com.yourname.githubclient.domain.usecase
+package com.yourname.githubclient.domain.usecase.theme
 
 import com.yourname.githubclient.domain.repository.ThemeRepository
 

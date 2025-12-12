@@ -1,23 +1,24 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/settingsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:title="Settings"
+        android:navigationIcon="?attr/homeAsUpIndicator" />
+
+    <!-- Theme switch -->
     <Switch
         android:id="@+id/switchTheme"
         android:text="Dark Mode"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/buttonLogout"
-        android:text="Logout"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@android:color/holo_red_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

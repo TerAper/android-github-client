@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_flow_graph"
+    app:startDestination="@id/repositoriesFragment">
+
+    <!-- Tab 1: Repositories -->
+    <fragment
+        android:id="@+id/repositoriesFragment"
+        android:name="com.yourname.githubclient.presentation.main.repositories.RepositoriesFragment"
+        android:label="Repositories" />
+
+    <!-- Tab 2: All Users -->
+    <fragment
+        android:id="@+id/allUsersFragment"
+        android:name="com.yourname.githubclient.presentation.main.users.UsersFragment"
+        android:label="Users" />
+
+    <!-- Tab 3: Profile -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.yourname.githubclient.presentation.main.profile.ProfileFragment"
+        android:label="Profile">
+
+        <action
+            android:id="@+id/action_profile_to_settings"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+
+    <!-- Settings screen (ONLY here!!!) -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.yourname.githubclient.presentation.settings.SettingsFragment"
+        android:label="Settings" />
+
+</navigation>

@@ -1,18 +1,15 @@
 package com.yourname.githubclient
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.Navigation
 import com.yourname.githubclient.databinding.ActivityMainBinding
 import com.yourname.githubclient.di.ServiceLocator
 import com.yourname.githubclient.util.ThemeManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,69 +17,34 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        // --- Apply saved theme BEFORE setContentView ---
-        lifecycleScope.launch {
+        // Load theme before super.onCreate (keep this)
+        runBlocking {
             val isDark = ServiceLocator.dataStore.themeFlow.first()
             ThemeManager.apply(isDark)
         }
 
-        setTheme(R.style.Theme_GithubClient) // normal theme for splash
+        setTheme(R.style.Theme_GithubClient)
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.mainToolbar)
 
-        lifecycleScope.launch {
-            ServiceLocator.dataStore.token.collect { savedToken ->
-                if (!savedToken.isNullOrEmpty()) {
-                    ServiceLocator.interceptor.setToken(savedToken)
+        if (savedInstanceState == null) {
+            lifecycleScope.launch {
+                val loggedIn = ServiceLocator.dataStore.isLoggedInFlow.first()
+                val navController = Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
+
+                val destination = if (loggedIn) R.id.mainFlowFragment else R.id.loginFragment
+
+                // Try to remove previous stack OR duplicated directions
+                try {
+                    navController.popBackStack(R.id.auth_graph, true)
+                } catch (_: Exception) {}
+
+                if (navController.currentDestination?.id != destination) {
+                    navController.navigate(destination)
                 }
             }
         }
-
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHost.navController
-
-        val appBarConfig = AppBarConfiguration(
-            setOf(R.id.loginFragment, R.id.mainFlowFragment)
-        )
-        binding.mainToolbar.setupWithNavController(navController, appBarConfig)
-
-        navController.addOnDestinationChangedListener { _, _, _ ->
-            invalidateOptionsMenu()
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val current = navHost.navController.currentDestination?.id
-
-        menu.findItem(R.id.action_settings)?.isVisible =
-            current != R.id.settingsFragment
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> {
-                val navHost =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-                navHost.navController.navigate(R.id.settingsFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        return navHost.navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
