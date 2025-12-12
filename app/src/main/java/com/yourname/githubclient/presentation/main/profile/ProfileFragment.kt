@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
+import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import com.yourname.githubclient.R
 import com.yourname.githubclient.databinding.FragmentProfileBinding
 import com.yourname.githubclient.di.ServiceLocator
 import com.yourname.githubclient.presentation.base.BaseFragment
+import com.yourname.githubclient.util.getColorFromAttr
 import kotlinx.coroutines.launch
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
@@ -45,6 +47,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         FragmentProfileBinding.inflate(inflater, container, false)
 
     override fun onViewReady() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Profile"
         setupToolbar()
         observeProfile()
 
@@ -61,12 +64,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     }
 
     private fun setupToolbar() {
-        (requireActivity() as AppCompatActivity)
-            .setSupportActionBar(binding.profileToolbar)
-
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_profile, menu)
+
+                val item = menu.findItem(R.id.action_settings)
+                item.icon?.setTint(
+                    requireContext().getColorFromAttr(com.google.android.material.R.attr.colorOnSurface)
+                )
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

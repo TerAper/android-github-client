@@ -3,9 +3,11 @@ package com.yourname.githubclient
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.yourname.githubclient.databinding.ActivityMainBinding
 import com.yourname.githubclient.di.ServiceLocator
+import com.yourname.githubclient.presentation.main.MainFlowFragment
 import com.yourname.githubclient.util.ThemeManager
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -17,7 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        // Load theme before super.onCreate (keep this)
         runBlocking {
             val isDark = ServiceLocator.dataStore.themeFlow.first()
             ThemeManager.apply(isDark)
@@ -29,14 +30,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+
         if (savedInstanceState == null) {
+
             lifecycleScope.launch {
+
                 val loggedIn = ServiceLocator.dataStore.isLoggedInFlow.first()
-                val navController = Navigation.findNavController(this@MainActivity, R.id.nav_host_fragment)
 
-                val destination = if (loggedIn) R.id.mainFlowFragment else R.id.loginFragment
+                val navController = supportFragmentManager
+                    .findFragmentById(R.id.nav_host_fragment)
+                    ?.findNavController()
+                    ?: return@launch
 
-                // Try to remove previous stack OR duplicated directions
+                val destination = if (loggedIn) {
+                    R.id.mainFlowFragment
+                } else {
+                    R.id.loginFragment
+                }
+
                 try {
                     navController.popBackStack(R.id.auth_graph, true)
                 } catch (_: Exception) {}
@@ -46,5 +58,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment)
+            ?.findNavController()
+        return navController?.navigateUp() ?: super.onSupportNavigateUp()
+    }
+    fun setBottomNavEnabled(enabled: Boolean) {
+        val mainFlowFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            ?.childFragmentManager
+            ?.fragments
+            ?.filterIsInstance<MainFlowFragment>()
+            ?.firstOrNull()
+
+        mainFlowFragment?.setBottomNavEnabled(enabled)
     }
 }

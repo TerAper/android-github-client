@@ -33,7 +33,7 @@ class LoginViewModel(
     }
 }
 
-class LoginViewModelFactory(
+class Factory(
     private val loginUseCase: LoginUseCase
 ) : ViewModelProvider.Factory {
 

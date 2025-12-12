@@ -3,7 +3,7 @@ package com.yourname.githubclient.data.remote.model
 import com.yourname.githubclient.domain.model.User
 
 data class UserDto(
- val id: Long,
+ val id: Int,
  val login: String,
  val avatar_url: String?
 )

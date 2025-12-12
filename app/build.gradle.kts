@@ -47,6 +47,8 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-rxjava3:2.6.1")
+    implementation(libs.androidx.swiperefreshlayout)   // ← ADD THIS
     ksp("androidx.room:room-compiler:2.6.1")
 
     // Coil
@@ -57,6 +59,9 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.2")
+
+    // 👉 ADD THIS
+    implementation("com.squareup.retrofit2:adapter-rxjava3:2.11.0")
 
     // AndroidX
     implementation("androidx.core:core-ktx:1.12.0")
@@ -79,8 +84,11 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxjava:3.1.8")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
 
+    //----------------------------
     // Tests
+    //----------------------------
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
+

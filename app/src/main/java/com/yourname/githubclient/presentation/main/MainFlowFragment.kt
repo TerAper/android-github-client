@@ -12,8 +12,13 @@ class MainFlowFragment : BaseFragment<FragmentMainFlowBinding, MainFlowViewModel
 
     override val viewModel: MainFlowViewModel by viewModels()
 
+
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentMainFlowBinding.inflate(inflater, container, false)
+        FragmentMainFlowBinding.inflate(inflater, container, false)fun setBottomNavEnabled(enabled: Boolean) {
+        binding.bottomNav.isEnabled = enabled
+        binding.bottomNav.menu.setGroupEnabled(0, enabled)
+    }
+
 
     override fun onViewReady() {
         val navHostFragment =

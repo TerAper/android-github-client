@@ -11,5 +11,6 @@ object ThemeManager {
                 AppCompatDelegate.MODE_NIGHT_NO
         )
     }
+
 }
 

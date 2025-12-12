@@ -1,7 +1,10 @@
 package com.yourname.githubclient.data.remote.api
 
+import com.yourname.githubclient.data.remote.model.RepositoryDto
 import com.yourname.githubclient.data.remote.model.UserDto
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 data class UserEmailDto(
     val email: String,
@@ -16,4 +19,17 @@ interface GithubApi {
 
     @GET("user/emails")
     suspend fun getUserEmails(): List<UserEmailDto>
+
+    @GET("user/repos")
+    fun getUserRepositories(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
+    ): Observable<List<RepositoryDto>>
+
+    @GET("users")
+    suspend fun getAllUsers(
+        @Query("since") since: Int,
+        @Query("per_page") perPage: Int = 20
+    ): List<UserDto>
+
 }

@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
 
     override val viewModel: LoginViewModel by viewModels {
-        LoginViewModelFactory(ServiceLocator.loginUseCase)
+        Factory(ServiceLocator.loginUseCase)
     }
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =

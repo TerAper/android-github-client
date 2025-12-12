@@ -12,10 +12,25 @@
 
     <!-- Tab 2: All Users -->
     <fragment
-        android:id="@+id/allUsersFragment"
-        android:name="com.yourname.githubclient.presentation.main.users.UsersFragment"
-        android:label="Users" />
+    android:id="@+id/usersFragment"
+    android:name="com.yourname.githubclient.presentation.main.users.UsersFragment"
+    android:label="Users">
 
+    <action
+        android:id="@+id/action_usersFragment_to_detailsFragment"
+        app:destination="@id/detailsFragment" />
+</fragment>
+
+    <!-- DETAILS FRAGMENT MUST EXIST IN THIS GRAPH -->
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.yourname.githubclient.presentation.details.DetailsFragment"
+        android:label="User Details">
+
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
     <!-- Tab 3: Profile -->
     <fragment
         android:id="@+id/profileFragment"
@@ -27,7 +42,6 @@
             app:destination="@id/settingsFragment" />
     </fragment>
 
-    <!-- Settings screen (ONLY here!!!) -->
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.yourname.githubclient.presentation.settings.SettingsFragment"
