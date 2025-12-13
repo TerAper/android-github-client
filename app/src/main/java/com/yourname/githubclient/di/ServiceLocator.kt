@@ -6,22 +6,13 @@ import com.yourname.githubclient.data.local.AppDatabase
 import com.yourname.githubclient.data.local.DataStoreManager
 import com.yourname.githubclient.data.remote.api.GithubApi
 import com.yourname.githubclient.data.remote.api.NetworkInterceptor
-import com.yourname.githubclient.data.repository.AuthRepositoryImpl
-import com.yourname.githubclient.data.repository.ProfileRepositoryImpl
-import com.yourname.githubclient.data.repository.RepositoriesRepositoryImpl
-import com.yourname.githubclient.data.repository.ThemeRepositoryImpl
-import com.yourname.githubclient.data.repository.UsersRepositoryImpl
-import com.yourname.githubclient.domain.repository.AuthRepository
-import com.yourname.githubclient.domain.repository.ProfileRepository
-import com.yourname.githubclient.domain.repository.RepositoriesRepository
-import com.yourname.githubclient.domain.repository.ThemeRepository
-import com.yourname.githubclient.domain.repository.UsersRepository
+import com.yourname.githubclient.data.repository.*
+import com.yourname.githubclient.domain.repository.*
+import com.yourname.githubclient.domain.usecase.details.GetUserDetailsUseCase
+import com.yourname.githubclient.domain.usecase.details.GetUserReposUseCaseForDetails
 import com.yourname.githubclient.domain.usecase.login.LoginUseCase
 import com.yourname.githubclient.domain.usecase.login.LogoutUseCase
-import com.yourname.githubclient.domain.usecase.profile.ClearAvatarUseCase
-import com.yourname.githubclient.domain.usecase.profile.GetAvatarUseCase
-import com.yourname.githubclient.domain.usecase.profile.GetUsernameUseCase
-import com.yourname.githubclient.domain.usecase.profile.SaveAvatarUseCase
+import com.yourname.githubclient.domain.usecase.profile.*
 import com.yourname.githubclient.domain.usecase.repositories.GetUserRepositoriesUseCase
 import com.yourname.githubclient.domain.usecase.theme.GetThemeUseCase
 import com.yourname.githubclient.domain.usecase.theme.UpdateThemeUseCase
@@ -35,22 +26,22 @@ object ServiceLocator {
 
     private val lock = Any()
 
-    // managers / primitives
+    // Managers / primitives
     private var _dataStore: DataStoreManager? = null
     val dataStore get() = _dataStore!!
 
     private var _interceptor: NetworkInterceptor? = null
     val interceptor get() = _interceptor!!
 
-    // retrofit api
+    // Retrofit API
     private var _api: GithubApi? = null
     val api get() = _api!!
 
-    // room db
+    // Room DB
     private var _appDatabase: AppDatabase? = null
     val appDatabase get() = _appDatabase!!
 
-    // repositories
+    // Repositories
     private var _authRepo: AuthRepository? = null
     val authRepository get() = _authRepo!!
 
@@ -63,7 +54,13 @@ object ServiceLocator {
     private var _repositoriesRepo: RepositoriesRepository? = null
     val repositoriesRepository get() = _repositoriesRepo!!
 
-    // use cases
+    private var _detailsRepository: DetailsRepository? = null
+    val detailsRepository get() = _detailsRepository!!
+
+    private var _usersRepo: UsersRepository? = null
+    val usersRepository get() = _usersRepo!!
+
+    // Use Cases
     private var _loginUseCase: LoginUseCase? = null
     val loginUseCase get() = _loginUseCase!!
 
@@ -91,24 +88,24 @@ object ServiceLocator {
     private var _getUserRepositoriesUseCase: GetUserRepositoriesUseCase? = null
     val getUserRepositoriesUseCase get() = _getUserRepositoriesUseCase!!
 
-    private var _usersRepo: UsersRepository? = null
-    val usersRepository get() = _usersRepo!!
-
     private var _getAllUsersUseCase: GetAllUsersUseCase? = null
     val getAllUsersUseCase get() = _getAllUsersUseCase!!
 
-    /**
-     * Initialize service locator. Call once from Application.onCreate()
-     */
+    private var _getUserDetailsUseCase: GetUserDetailsUseCase? = null
+    val getUserDetailsUseCase get() = _getUserDetailsUseCase!!
+
+    private var _getUserReposUseCaseForDetails: GetUserReposUseCaseForDetails? = null
+    val getUserReposUseCaseForDetails get() = _getUserReposUseCaseForDetails!!
+
     fun init(context: Context) {
         synchronized(lock) {
-            // Data store manager
+            // Initialize DataStore
             _dataStore = DataStoreManager(context)
 
-            // Network interceptor (for auth token)
+            // Network interceptor
             _interceptor = NetworkInterceptor()
 
-            // OkHttp + Retrofit
+            // Retrofit API
             val client = OkHttpClient.Builder()
                 .addInterceptor(_interceptor!!)
                 .build()
@@ -117,24 +114,29 @@ object ServiceLocator {
                 .baseUrl("https://api.github.com/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())   // ✅ REQUIRED FOR OBSERVABLE
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build()
 
             _api = retrofit.create(GithubApi::class.java)
 
+            // Room database
             _appDatabase = Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
                 "github_client_db"
             ).build()
 
-            // Repositories (data layer)
+            // DAOs
+            val userDao = _appDatabase!!.userDao()
+            val repoDao = _appDatabase!!.repositoryDao()
+
+            // Repositories
             _authRepo = AuthRepositoryImpl(_api!!, _dataStore!!, _interceptor!!)
             _profileRepo = ProfileRepositoryImpl(_dataStore!!)
             _themeRepo = ThemeRepositoryImpl(_dataStore!!)
-
-            val repoDao = _appDatabase!!.repositoryDao()
-            _repositoriesRepo = RepositoriesRepositoryImpl(_api!!, repoDao,context)
+            _repositoriesRepo = RepositoriesRepositoryImpl(_api!!, repoDao, context)
+            _detailsRepository = DetailsRepositoryImpl(_api!!, userDao, repoDao, context)
+            _usersRepo = UsersRepositoryImpl(_api!!, userDao)
 
             // Use cases
             _loginUseCase = LoginUseCase(_authRepo!!)
@@ -148,12 +150,11 @@ object ServiceLocator {
             _getThemeUseCase = GetThemeUseCase(_themeRepo!!)
             _updateThemeUseCase = UpdateThemeUseCase(_themeRepo!!)
 
-            val userDao = _appDatabase!!.userDao()
-            _usersRepo = UsersRepositoryImpl(_api!!, userDao)
-            _getAllUsersUseCase = GetAllUsersUseCase(_usersRepo!!)
-
+            _getUserDetailsUseCase = GetUserDetailsUseCase(_detailsRepository!!)
+            _getUserReposUseCaseForDetails = GetUserReposUseCaseForDetails(_detailsRepository!!)
 
             _getUserRepositoriesUseCase = GetUserRepositoriesUseCase(_repositoriesRepo!!)
+            _getAllUsersUseCase = GetAllUsersUseCase(_usersRepo!!)
         }
     }
 }

@@ -4,6 +4,8 @@ import android.content.Context
 import com.yourname.githubclient.data.local.RepositoryDao
 import com.yourname.githubclient.data.local.toDomain
 import com.yourname.githubclient.data.remote.api.GithubApi
+import com.yourname.githubclient.data.remote.model.toDomain
+import com.yourname.githubclient.data.remote.model.toEntity
 import com.yourname.githubclient.domain.model.Repository
 import com.yourname.githubclient.domain.repository.RepositoriesRepository
 import com.yourname.githubclient.util.isOnline
@@ -23,11 +25,11 @@ class RepositoriesRepositoryImpl(
                 api.getUserRepositories(page, perPage)
                     .subscribeOn(Schedulers.io())
                     .doOnNext { dtoList ->
-                        dao.insertRepositories(dtoList.map { it.toEntity() })
+                        dao.insertReposRx(dtoList.map { it.toEntity() })
                     }
                     .map { dtoList -> dtoList.map { it.toDomain() } }
                     .onErrorResumeNext { _: Throwable ->
-                        dao.getAllRepositories()
+                        dao.getReposRx()
                             .subscribeOn(Schedulers.io())
                             .map { entities ->
                                 val from = (page - 1) * perPage
@@ -38,7 +40,7 @@ class RepositoriesRepositoryImpl(
                             .toObservable()
                     }
             } else {
-                dao.getAllRepositories()
+                dao.getReposRx()
                     .subscribeOn(Schedulers.io())
                     .map { entities ->
                         val from = (page - 1) * perPage

@@ -4,34 +4,35 @@
     android:id="@+id/main_flow_graph"
     app:startDestination="@id/repositoriesFragment">
 
-    <!-- Tab 1: Repositories -->
+    <!-- TAB 1: Repositories -->
     <fragment
         android:id="@+id/repositoriesFragment"
         android:name="com.yourname.githubclient.presentation.main.repositories.RepositoriesFragment"
         android:label="Repositories" />
 
-    <!-- Tab 2: All Users -->
+    <!-- TAB 2: Users -->
     <fragment
-    android:id="@+id/usersFragment"
-    android:name="com.yourname.githubclient.presentation.main.users.UsersFragment"
-    android:label="Users">
+        android:id="@+id/usersFragment"
+        android:name="com.yourname.githubclient.presentation.main.users.UsersFragment"
+        android:label="Users">
 
-    <action
-        android:id="@+id/action_usersFragment_to_detailsFragment"
-        app:destination="@id/detailsFragment" />
-</fragment>
+        <action
+            android:id="@+id/action_usersFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
 
-    <!-- DETAILS FRAGMENT MUST EXIST IN THIS GRAPH -->
+    <!-- DETAILS SCREEN -->
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.yourname.githubclient.presentation.details.DetailsFragment"
-        android:label="User Details">
+        android:label="Details">
 
         <argument
             android:name="username"
             app:argType="string" />
     </fragment>
-    <!-- Tab 3: Profile -->
+
+    <!-- TAB 3: Profile -->
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.yourname.githubclient.presentation.main.profile.ProfileFragment"

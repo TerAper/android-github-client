@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>() {
 
     override val viewModel: ProfileViewModel by viewModels {
-        ProfileViewModelFactory(
+        ProfileViewModel.Factory(
             ServiceLocator.logoutUseCase,
             ServiceLocator.saveAvatarUseCase,
             ServiceLocator.clearAvatarUseCase,

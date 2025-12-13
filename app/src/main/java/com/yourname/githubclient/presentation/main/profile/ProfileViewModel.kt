@@ -33,26 +33,26 @@ class ProfileViewModel(
         clearAvatarUseCase()
         logoutUseCase()
     }
-}
 
-class ProfileViewModelFactory(
-    private val logoutUseCase: LogoutUseCase,
-    private val saveAvatarUseCase: SaveAvatarUseCase,
-    private val clearAvatarUseCase: ClearAvatarUseCase,
-    private val getAvatarUseCase: GetAvatarUseCase,
-    private val getUsernameUseCase: GetUsernameUseCase
-) : ViewModelProvider.Factory {
+    class Factory(
+        private val logoutUseCase: LogoutUseCase,
+        private val saveAvatarUseCase: SaveAvatarUseCase,
+        private val clearAvatarUseCase: ClearAvatarUseCase,
+        private val getAvatarUseCase: GetAvatarUseCase,
+        private val getUsernameUseCase: GetUsernameUseCase
+    ) : ViewModelProvider.Factory {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            return ProfileViewModel(
-                logoutUseCase,
-                saveAvatarUseCase,
-                clearAvatarUseCase,
-                getAvatarUseCase,
-                getUsernameUseCase
-            ) as T
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
+                return ProfileViewModel(
+                    logoutUseCase,
+                    saveAvatarUseCase,
+                    clearAvatarUseCase,
+                    getAvatarUseCase,
+                    getUsernameUseCase
+                ) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

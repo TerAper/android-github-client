@@ -9,3 +9,4 @@ data class UserEntity(
     val login: String?,
     val avatarUrl: String?
 )
+
