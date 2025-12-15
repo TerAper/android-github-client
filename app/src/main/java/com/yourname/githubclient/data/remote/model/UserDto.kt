@@ -1,19 +1,21 @@
 package com.yourname.githubclient.data.remote.model
 
-import com.yourname.githubclient.domain.model.User
+import com.yourname.githubclient.domain.model.UserDetails
 
-data class UserDto(
- val id: Int,
- val login: String,
- val avatar_url: String?
+data class UserDetailsDto(
+    val login: String,
+    val id: Int,
+    val avatar_url: String?,
+    val name: String?,
+    val bio: String?,
+    val followers: Int,
+    val following: Int
 )
-
-
-fun UserDto.toDomain(): User {
- return User(
-  id = id,
-  username = login,
-  avatarUrl = avatar_url
- )
-}
-
+fun UserDetailsDto.toDomain() = UserDetails(
+    username = login,
+    name = name,
+    avatarUrl = avatar_url,
+    bio = bio,
+    followers = followers,
+    following = following
+)
