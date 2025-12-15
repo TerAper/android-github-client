@@ -1,34 +1,39 @@
 package com.yourname.githubclient.data.remote.model
 
-import com.yourname.githubclient.data.local.RepositoryEntity
+import com.yourname.githubclient.data.local.model.RepositoryEntity
 import com.yourname.githubclient.domain.model.Repository
 
 data class RepositoryDto(
     val id: Int,
+    val owner: OwnerDto,
     val name: String,
     val description: String?,
     val language: String?,
-    val owner: OwnerDto
 )
-
 data class OwnerDto(
     val login: String
 )
 
-fun RepositoryDto.toEntity() = RepositoryEntity(
+fun RepositoryDto.toEntity(
+    cachedOrder: Int = 0,
+    profile: String = ""
+) = RepositoryEntity(
     id = id,
-    ownerLogin = owner.login,
+    owner = owner.login,
     name = name,
     description = description,
-    language = language
+    language = language,
+    cachedOrder = cachedOrder,
+    profile = profile
 )
+
 
 
 fun RepositoryDto.toDomain() = Repository(
     id = id,
     name = name,
-    description = description,
-    language = language
+    description = description ?:"",
+    language = language ?:""
 )
 
 

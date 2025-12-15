@@ -9,8 +9,8 @@ class ProfileRepositoryImpl(
 ) : ProfileRepository {
 
     override fun getProfile() =
-        combine(dataStore.username, dataStore.avatarUriFlow) { username, uri ->
-            username to uri
+        combine(dataStore.login, dataStore.avatarUriFlow) { login, uri ->
+            login to uri
         }
 
     override suspend fun saveAvatar(uri: String) {

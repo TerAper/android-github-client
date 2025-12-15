@@ -2,6 +2,8 @@ package com.yourname.githubclient.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.yourname.githubclient.data.local.model.RepositoryEntity
+import com.yourname.githubclient.data.local.model.UserEntity
 
 @Database(
     entities = [RepositoryEntity::class, UserEntity::class],

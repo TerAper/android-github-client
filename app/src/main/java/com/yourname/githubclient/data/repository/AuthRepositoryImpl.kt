@@ -13,24 +13,30 @@ class AuthRepositoryImpl(
     private val interceptor: NetworkInterceptor
 ) : AuthRepository {
 
-    override suspend fun login(username: String, token: String): Result<User> {
+    override suspend fun login(login: String, token: String): Result<User> {
         return try {
             saveToken(token)
-            val isEmail = username.contains("@")
 
-            if (isEmail) {
+            val authenticatedUser = api.authenticate().toDomain()
+
+            if (login.contains("@")) {
                 val emails = api.getUserEmails()
-                val emailMatch = emails.any { it.email.equals(username, ignoreCase = true) }
+                val emailMatch = emails.any { it.email.equals(login, ignoreCase = true) }
                 if (!emailMatch) return Result.failure(Exception("Email does not match token"))
             } else {
-                val user = api.authenticate().toDomain()
-                if (user.username != username) return Result.failure(Exception("Username does not match token"))
+
+                if (authenticatedUser.login != login) {
+                    return Result.failure(Exception("Username does not match token"))
+                }
             }
 
-            dataStore.saveLoginState(token,username)
+            dataStore.saveUser(
+                token = token,
+                login = authenticatedUser.login,
+                avatarUrl = authenticatedUser.avatarUrl
+            )
 
-            val user = api.authenticate().toDomain()
-            Result.success(user)
+            Result.success(authenticatedUser)
 
         } catch (e: Exception) {
             Result.failure(e)
@@ -41,7 +47,6 @@ class AuthRepositoryImpl(
         clearToken()
         dataStore.clearLoginState()
     }
-
 
     override suspend fun saveToken(token: String) {
         interceptor.setToken(token)

@@ -1,9 +1,13 @@
 package com.yourname.githubclient.util
 
 import android.content.Context
+import android.util.TypedValue
+import androidx.annotation.AttrRes
+import androidx.core.content.ContextCompat
 
-fun Context.getColorFromAttr(attr: Int): Int {
-    val typedValue = android.util.TypedValue()
+fun Context.getColorFromAttr(@AttrRes attr: Int): Int {
+    val typedValue = TypedValue()
     theme.resolveAttribute(attr, typedValue, true)
-    return typedValue.data
+    return ContextCompat.getColor(this, typedValue.resourceId)
 }
+

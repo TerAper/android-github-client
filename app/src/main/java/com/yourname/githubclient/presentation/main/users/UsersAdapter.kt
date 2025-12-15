@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.yourname.githubclient.R
 import com.yourname.githubclient.databinding.ItemUserBinding
 import com.yourname.githubclient.domain.model.User
 
 class UsersAdapter(
-    private val onClick: (User) -> Unit
+    private val onClick: (String,String) -> Unit
 ) : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
     private val items = mutableListOf<User>()
@@ -23,10 +24,16 @@ class UsersAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: User) {
-            binding.tvUsername.text = user.username
-            binding.avatar.load(user.avatarUrl)
+            binding.tvUsername.text = user.login
+            binding.avatar.load(user.avatarUrl) {
+                placeholder(R.drawable.ic_profile)
+                error(R.drawable.ic_profile)
+                fallback(R.drawable.ic_profile)
+            }
 
-            binding.root.setOnClickListener { onClick(user) }
+            binding.root.setOnClickListener {
+                onClick(user.login, user.avatarUrl)
+            }
         }
     }
 

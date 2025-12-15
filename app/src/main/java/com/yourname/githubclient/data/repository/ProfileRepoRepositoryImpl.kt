@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 
-class ReposForProfileRepositoryImpl(
+class ProfileRepoRepositoryImpl(
     private val api: GithubApi,
     private val dao: RepositoryDao,
     private val networkChecker: NetworkChecker
@@ -51,8 +51,8 @@ class ReposForProfileRepositoryImpl(
         }
     }
 
-    override fun clearAllRepositories() {
-        TODO("Not yet implemented")
+    override suspend fun clearAllRepositories() {
+        dao.clearRepos()
     }
 
 }

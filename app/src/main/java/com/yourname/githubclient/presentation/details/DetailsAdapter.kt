@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yourname.githubclient.databinding.ItemRepoBinding
 import com.yourname.githubclient.domain.model.Repository
 
-class RepoAdapter : RecyclerView.Adapter<RepoAdapter.ViewHolder>() {
+class DetailsAdapter : RecyclerView.Adapter<DetailsAdapter.ViewHolder>() {
 
     private val items = mutableListOf<Repository>()
 

@@ -10,6 +10,7 @@ import com.yourname.githubclient.domain.usecase.profile.GetAvatarUseCase
 import com.yourname.githubclient.domain.usecase.profile.GetUsernameUseCase
 import com.yourname.githubclient.domain.usecase.profile.SaveAvatarUseCase
 import com.yourname.githubclient.presentation.base.BaseViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
@@ -19,8 +20,10 @@ class ProfileViewModel(
     getAvatarUseCase: GetAvatarUseCase,
     getUsernameUseCase: GetUsernameUseCase
 ) : BaseViewModel() {
+    private val _logoutEvent = MutableSharedFlow<Unit>()
+    val logoutEvent = _logoutEvent
 
-    val username = getUsernameUseCase()
+    val login = getUsernameUseCase()
     val avatarUri = getAvatarUseCase()
 
     fun saveAvatar(uri: Uri) {
@@ -29,9 +32,12 @@ class ProfileViewModel(
         }
     }
 
-    suspend fun logout() {
-        clearAvatarUseCase()
-        logoutUseCase()
+    fun logout() {
+        viewModelScope.launch {
+            clearAvatarUseCase()
+            logoutUseCase()
+            _logoutEvent.emit(Unit)
+        }
     }
 
     class Factory(
@@ -44,6 +50,7 @@ class ProfileViewModel(
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
                 return ProfileViewModel(
                     logoutUseCase,
                     saveAvatarUseCase,

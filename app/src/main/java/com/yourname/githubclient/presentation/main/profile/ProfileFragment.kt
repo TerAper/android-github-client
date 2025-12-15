@@ -3,10 +3,8 @@ package com.yourname.githubclient.presentation.main.profile
 import android.content.Intent
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
-import androidx.core.view.forEach
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +16,7 @@ import com.yourname.githubclient.R
 import com.yourname.githubclient.databinding.FragmentProfileBinding
 import com.yourname.githubclient.di.ServiceLocator
 import com.yourname.githubclient.presentation.base.BaseFragment
+import com.yourname.githubclient.util.ToolbarController
 import com.yourname.githubclient.util.getColorFromAttr
 import kotlinx.coroutines.launch
 
@@ -32,7 +31,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
             ServiceLocator.getUsernameUseCase
         )
     }
-
     private val chooseImageLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             uri?.let {
@@ -47,20 +45,27 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
         FragmentProfileBinding.inflate(inflater, container, false)
 
     override fun onViewReady() {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Profile"
+        (requireActivity() as ToolbarController).setToolbarTitle("Profile")
         setupToolbar()
         observeProfile()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.logoutEvent.collect {
+                    navigateToAuth()
+                }
+            }
+        }
+
 
         binding.imgAvatar.setOnClickListener {
             chooseImageLauncher.launch(arrayOf("image/*"))
         }
 
         binding.btnLogout.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.logout()
-                navigateToAuth()
-            }
+            viewModel.logout()
         }
+
     }
 
     private fun setupToolbar() {
@@ -89,21 +94,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>()
     private fun observeProfile() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-
                 launch {
-                    viewModel.username.collect { username ->
-                        binding.tvUsername.text = username ?: "GitHub User"
-                    }
-                }
-
-                launch {
+                    binding.tvUsername.text = viewModel.login
                     viewModel.avatarUri.collect { uri ->
                         val finalUri = uri?.toUri()
                             ?: "android.resource://${requireContext().packageName}/drawable/placeholder".toUri()
 
                         binding.imgAvatar.setImageURI(finalUri)
 
-                        // If URI invalid → placeholder
                         if (binding.imgAvatar.drawable == null) {
                             binding.imgAvatar.setImageResource(R.drawable.placeholder)
                         }

@@ -2,15 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_flow_graph"
-    app:startDestination="@id/repositoriesFragment">
+    app:startDestination="@id/profileFragment">
 
-    <!-- TAB 1: Repositories -->
     <fragment
         android:id="@+id/repositoriesFragment"
         android:name="com.yourname.githubclient.presentation.main.repositories.RepositoriesFragment"
         android:label="Repositories" />
 
-    <!-- TAB 2: Users -->
     <fragment
         android:id="@+id/usersFragment"
         android:name="com.yourname.githubclient.presentation.main.users.UsersFragment"
@@ -21,18 +19,20 @@
             app:destination="@id/detailsFragment" />
     </fragment>
 
-    <!-- DETAILS SCREEN -->
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.yourname.githubclient.presentation.details.DetailsFragment"
         android:label="Details">
 
         <argument
-            android:name="username"
+            android:name="login"
             app:argType="string" />
+        <argument
+            android:name="avatarUrl"
+            app:argType="string" />
+
     </fragment>
 
-    <!-- TAB 3: Profile -->
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.yourname.githubclient.presentation.main.profile.ProfileFragment"

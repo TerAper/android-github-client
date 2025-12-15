@@ -31,32 +31,23 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
     override fun onViewReady() {
         val activity = requireActivity() as AppCompatActivity
 
-        // Use MainActivity toolbar
         activity.supportActionBar?.apply {
             title = "Settings"
             setDisplayHomeAsUpEnabled(true)
-            // Set click listener for back arrow
-            setHomeAsUpIndicator(null) // optional: use default arrow
+            setHomeAsUpIndicator(null)
         }
-
-        // Handle the toolbar back arrow click
         binding.root.post {
             activity.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
                 ?.setNavigationOnClickListener {
                     findNavController().popBackStack()
                 }
         }
-
-        // Disable bottom nav while in settings
-        (requireActivity() as MainActivity).setBottomNavEnabled(false)
-
-        // Observe theme toggle
+        (requireActivity() as MainActivity).setBottomNavVisible(false)
         observeTheme()
     }
 
     override fun onDestroyView() {
-        // Re-enable bottom nav and hide back arrow
-        (requireActivity() as MainActivity).setBottomNavEnabled(true)
+        (requireActivity() as MainActivity).setBottomNavVisible(true)
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         super.onDestroyView()
     }

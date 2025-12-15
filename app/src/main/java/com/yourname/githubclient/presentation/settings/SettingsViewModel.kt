@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
-    private val getThemeUseCase: GetThemeUseCase,
+    getThemeUseCase: GetThemeUseCase,
     private val updateThemeUseCase: UpdateThemeUseCase
 ) : BaseViewModel() {
 
@@ -24,7 +24,6 @@ class SettingsViewModel(
         }
     }
 
-    /** Factory for SettingsViewModel **/
     class Factory(
         private val getThemeUseCase: GetThemeUseCase,
         private val updateThemeUseCase: UpdateThemeUseCase

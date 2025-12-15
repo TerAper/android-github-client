@@ -1,57 +1,69 @@
 package com.yourname.githubclient.data.repository
 
+import android.util.Log
+import com.yourname.githubclient.data.local.DataStoreManager
+import com.yourname.githubclient.data.local.RepositoryDao
 import com.yourname.githubclient.data.local.UserDao
-import com.yourname.githubclient.data.local.UserEntity
+import com.yourname.githubclient.data.local.model.toDomain
 import com.yourname.githubclient.data.remote.api.GithubApi
+import com.yourname.githubclient.data.remote.model.toEntity
 import com.yourname.githubclient.domain.model.User
+import com.yourname.githubclient.domain.model.toEntity
 import com.yourname.githubclient.domain.repository.UsersRepository
+import com.yourname.githubclient.util.NetworkChecker
 
 class UsersRepositoryImpl(
     private val api: GithubApi,
-    private val dao: UserDao
+    private val uDao: UserDao,
+    private val rDao: RepositoryDao,
+    private val networkChecker: NetworkChecker,
+    private val dataStore: DataStoreManager
 ) : UsersRepository {
 
     override suspend fun getUsers(page: Int, pageSize: Int): List<User> {
-        // GitHub pagination: since = lastUserId (cursor). For page==0 use 0
-        val since = if (page == 0) 0 else (dao.getLastUserId() ?: 0)
 
-        return try {
-            val apiUsers = api.getAllUsers(since = since, perPage = pageSize)
-
-            val entities = apiUsers.map {
-                UserEntity(
-                    id = it.id,
-                    login = it.login,
-                    avatarUrl = it.avatar_url
-                )
-            }
-
-            // insert into DB
-            dao.insertUsers(entities)
-
-            // map to domain
-            entities.map { e -> User(e.id, e.login, e.avatarUrl) }
-        } catch (e: Exception) {
-            // offline / network error -> return cached users using limit/offset logic
-            val offset = page * pageSize
-            dao.getUsers(pageSize, offset).map { ent ->
-                User(ent.id, ent.login, ent.avatarUrl)
-            }
+        return if (networkChecker.isOnline()) {
+            val users = fetchFromApi(pageSize)
+            cacheFetchedUsers(users)
+            return users
+        } else {
+            fetchFromDb(page, pageSize)
         }
     }
 
-    override suspend fun cacheUsers(users: List<User>) {
-        val entities = users.map { UserEntity(it.id, it.username, it.avatarUrl) }
-        dao.insertUsers(entities)
+    private suspend fun fetchFromApi(pageSize: Int): List<User> {
+        val since = uDao.getLastUserId() ?: 0
+
+        val apiUsers = api.getUsers(
+            since = since,
+            perPage = pageSize
+        )
+
+        val entities = apiUsers.map { it.toEntity() }
+        return entities.map { it.toDomain() }
     }
 
-    override suspend fun getCachedUsers(limit: Int, offset: Int): List<User> {
-        return dao.getUsers(limit, offset).map { ent ->
-            User(ent.id, ent.login, ent.avatarUrl)
+    private suspend fun fetchFromDb(page: Int, pageSize: Int): List<User> {
+        val offset = page * pageSize
+        return uDao.getUsers(limit = pageSize, offset = offset)
+            .map { it.toDomain() }
+    }
+
+
+    override suspend fun cacheFetchedUsers(users: List<User>) {
+        uDao.insertUsers(users.map { it.toEntity() })
+    }
+    override suspend fun clearCachedUsers() {
+        uDao.clearAll()
+    }
+
+    override suspend fun clearCachedUsersIfOnline() {
+        if(networkChecker.isOnline()){
+            uDao.clearAll()
+            rDao.clearRepos(dataStore.userName?:"")
         }
     }
 
-    override suspend fun getLastCachedUserId(): Int? {
-        return dao.getLastUserId()
-    }
+
+
 }

@@ -2,35 +2,38 @@ package com.yourname.githubclient.presentation.main.users
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yourname.githubclient.databinding.FragmentUsersBinding
 import com.yourname.githubclient.di.ServiceLocator
 import com.yourname.githubclient.presentation.base.BaseFragment
-import kotlinx.coroutines.flow.collectLatest
+import com.yourname.githubclient.util.ToolbarController
 import kotlinx.coroutines.launch
 
 class UsersFragment : BaseFragment<FragmentUsersBinding, UsersViewModel>() {
 
     override val viewModel: UsersViewModel by viewModels {
         UsersViewModel.Factory(
-            ServiceLocator.getAllUsersUseCase,
-            ServiceLocator.usersRepository
+            ServiceLocator.getUsersUseCase,
+            ServiceLocator.startUsersSessionUseCase
         )
     }
-
     private lateinit var adapter: UsersAdapter
 
-    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
+    override fun getViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentUsersBinding =
         FragmentUsersBinding.inflate(inflater, container, false)
 
     override fun onViewReady() {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = "Users"
+        (requireActivity() as ToolbarController).setToolbarTitle("Users")
         setupRecycler()
         setupSwipeRefresh()
         observeUsers()
@@ -38,25 +41,32 @@ class UsersFragment : BaseFragment<FragmentUsersBinding, UsersViewModel>() {
     }
 
     private fun setupRecycler() {
-        adapter = UsersAdapter { user ->
-            val action = UsersFragmentDirections.actionUsersFragmentToDetailsFragment(user.username!!)
+        adapter = UsersAdapter { login, avatarUrl ->
+            val action =
+                UsersFragmentDirections.actionUsersFragmentToDetailsFragment(
+                    login,
+                    avatarUrl
+                )
             findNavController().navigate(action)
         }
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@UsersFragment.adapter
 
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
-                if (dy <= 0) return
-                val lm = rv.layoutManager as LinearLayoutManager
-                val lastVisible = lm.findLastVisibleItemPosition()
-                val total = adapter.itemCount
-                if (lastVisible >= total - 5) {
-                    viewModel.loadMore()
+            binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val lm = recyclerView.layoutManager as LinearLayoutManager
+                   val lastLastVisible = lm.findLastVisibleItemPosition()
+                    val total = recyclerView.adapter?.itemCount ?: return
+
+                    if (dy > 0 && lastLastVisible >= total - 5) {
+                        viewModel.loadMore()
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     private fun setupSwipeRefresh() {
@@ -67,14 +77,18 @@ class UsersFragment : BaseFragment<FragmentUsersBinding, UsersViewModel>() {
 
     private fun observeUsers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.users.collectLatest { list ->
-                adapter.submitList(list)
-                binding.swipeRefresh.isRefreshing = false
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.users.collect { list ->
+                    adapter.submitList(list)
+                    binding.swipeRefresh.isRefreshing = false
+                }
             }
         }
     }
 
     override fun handleLoading(isLoading: Boolean) {
-        binding.progressBar.isVisible = isLoading
+        if (!binding.swipeRefresh.isRefreshing) {
+            binding.progressBar.isVisible = isLoading
+        }
     }
 }
