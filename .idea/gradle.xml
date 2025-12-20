@@ -11,6 +11,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app-database" />
+            <option value="$PROJECT_DIR$/app-network" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/feature-all-users" />
+            <option value="$PROJECT_DIR$/feature-login" />
+            <option value="$PROJECT_DIR$/feature-profile" />
+            <option value="$PROJECT_DIR$/feature-profile-repos" />
+            <option value="$PROJECT_DIR$/feature-settings" />
+            <option value="$PROJECT_DIR$/feature-user-details" />
           </set>
         </option>
       </GradleProjectSettings>

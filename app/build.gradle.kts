@@ -1,94 +1,84 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.androidx.navigation.safeargs)
-    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
+
 android {
-    namespace = "com.yourname.githubclient"
+    namespace = "com.aper.app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.yourname.githubclient"
+        applicationId = "com.aper.app"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
     }
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.15"
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
+
 
 dependencies {
-    // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    implementation("androidx.room:room-rxjava3:2.6.1")
-    implementation(libs.androidx.swiperefreshlayout)   // ← ADD THIS
-    ksp("androidx.room:room-compiler:2.6.1")
 
-    // Coil
-    implementation("io.coil-kt:coil:2.7.0")
+    // Modules
+    implementation(project(":core"))
+    implementation(project(":app-network"))
+    implementation(project(":app-database"))
+    implementation(project(":feature-login"))
+    implementation(project(":feature-profile"))
+    implementation(project(":feature-user-details"))
+    implementation(project(":feature-settings"))
+    implementation(project(":feature-profile-repos"))
+    implementation(project(":feature-all-users"))
 
-    // Retrofit + Moshi
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.15.2")
+    implementation(libs.material.v1130)
+    testImplementation(libs.junit)
+    implementation(libs.androidx.core.splashscreen)
 
-    // 👉 ADD THIS
-    implementation("com.squareup.retrofit2:adapter-rxjava3:2.11.0")
+    // Core
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.splashscreen.v101)
 
-    // AndroidX
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
+    // Navigation (XML)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
-    // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    // Navigation (Compose)
+    implementation(libs.androidx.navigation.compose)
 
-    // Splash + DataStore
-    implementation("androidx.core:core-splashscreen:1.2.0")
-    implementation("androidx.datastore:datastore-preferences:1.2.0")
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    // Compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
 
-    // RxJava
-    implementation("io.reactivex.rxjava3:rxjava:3.1.8")
-    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
-
-    //----------------------------
-    // Tests
-    //----------------------------
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.hilt.compiler)
 }
-

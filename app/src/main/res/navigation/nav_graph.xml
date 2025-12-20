@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.yourname.githubclient.presentation.login.LoginFragment"
+        android:name="com.aper.feature_login.presentation.LoginFragment"
         android:label="Login">
 
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/mainFlowFragment"
-        android:name="com.yourname.githubclient.presentation.main.MainFlowFragment"
+        android:name="com.aper.app.MainFlowFragment"
         android:label="Main Flow" />
 
 </navigation>

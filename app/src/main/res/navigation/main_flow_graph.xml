@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_flow_graph"
     app:startDestination="@id/profileFragment">
 
     <fragment
-        android:id="@+id/repositoriesFragment"
-        android:name="com.yourname.githubclient.presentation.main.repositories.RepositoriesFragment"
+        android:id="@+id/profileReposFragment"
+        android:name="com.aper.feature_profile_repos.presentation.RepositoriesFragment"
         android:label="Repositories" />
 
     <fragment
-        android:id="@+id/usersFragment"
-        android:name="com.yourname.githubclient.presentation.main.users.UsersFragment"
+        android:id="@+id/allUsersFragment"
+        android:name="com.aper.feature_all_users.presentation.AllUsersFragment"
         android:label="Users">
 
         <action
-            android:id="@+id/action_usersFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+            android:id="@+id/action_allUsersFragment_to_detailsFragment"
+            app:destination="@id/usersDetailsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/detailsFragment"
-        android:name="com.yourname.githubclient.presentation.details.DetailsFragment"
+        android:id="@+id/usersDetailsFragment"
+        android:name="com.aper.feature_user_details.presentation.DetailsFragment"
         android:label="Details">
 
         <argument
             android:name="login"
             app:argType="string" />
+
         <argument
             android:name="avatarUrl"
             app:argType="string" />
-
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.yourname.githubclient.presentation.main.profile.ProfileFragment"
+        android:name="com.aper.feature_profile.presentation.ProfileFragment"
         android:label="Profile">
 
         <action
@@ -45,7 +46,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.yourname.githubclient.presentation.settings.SettingsFragment"
+        android:name="com.aper.feature_settings.presentation.SettingsFragment"
         android:label="Settings" />
 
 </navigation>
