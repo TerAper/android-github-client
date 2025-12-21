@@ -1,6 +1,6 @@
 package com.aper.feature_profile.data.event
 
 sealed interface ProfileEvent {
-    object NavigateToSettings : ProfileEvent
-    object PickAvatar : ProfileEvent
+    data object NavigateToSettings : ProfileEvent
+    data object PickAvatar : ProfileEvent
 }

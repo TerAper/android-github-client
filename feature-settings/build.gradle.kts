@@ -17,7 +17,8 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
+        kotlinCompilerExtensionVersion =
+            libs.versions.composeCompiler.get()
     }
 
 
@@ -25,32 +26,43 @@ android {
 
 
 dependencies {
+
     implementation(project(":core"))
     implementation(project(":app-network"))
     implementation(project(":app-database"))
+
+    // Compose BOM
     implementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.material)
-    implementation(libs.androidx.navigation.fragment.ktx.v273)
-    implementation(libs.androidx.navigation.ui.ktx.v273)
 
-    implementation(libs.androidx.fragment.ktx)
-
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-    implementation(libs.rxjava)
-    implementation(libs.rxandroid)
-
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.compose.material)
+    // Compose
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.androidx.ui.tooling)
+
+    // Navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.compose)
+
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Fragment
+    implementation(libs.androidx.fragment.ktx)
+
+    // RxJava
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // ---- Unit testing ----
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }

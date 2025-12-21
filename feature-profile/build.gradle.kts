@@ -13,48 +13,48 @@ android {
         minSdk = 24
     }
 
-
     buildFeatures {
         compose = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
+        kotlinCompilerExtensionVersion =
+            libs.versions.composeCompiler.get()
     }
 }
 
 dependencies {
 
+    // --- Project modules ---
     implementation(project(":core"))
-    implementation(project(":app-database"))
-    implementation(project(":app-network"))
     implementation(project(":feature-profile-repos"))
 
-    implementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui)
+    // --- Android basics ---
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.fragment.ktx)
 
-    implementation(libs.androidx.lifecycle.viewmodel)
+    // --- Lifecycle ---
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.activity.compose)
-
-    implementation(libs.androidx.fragment.ktx)
-
+    // --- Hilt ---
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
 
-    implementation(libs.androidx.material)
+    // --- Compose ---
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.activity.compose)
+    debugImplementation(libs.androidx.ui.tooling)
 
+    // --- Image loading ---
     implementation(libs.coil.compose)
 
+    // ---- Unit testing ----
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }

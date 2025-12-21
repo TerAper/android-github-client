@@ -19,37 +19,30 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
+        kotlinCompilerExtensionVersion =
+            libs.versions.composeCompiler.get()
     }
 }
 
-
 dependencies {
 
+    // ---- Compose (shared UI theme) ----
     implementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.material)
-    implementation(libs.androidx.navigation.fragment.ktx.v273)
-    implementation(libs.androidx.navigation.ui.ktx.v273)
-
-    implementation(libs.androidx.fragment.ktx)
-
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-    implementation(libs.rxjava)
-    implementation(libs.rxandroid)
-
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-    implementation(libs.androidx.compose.material)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.activity.compose)
     debugImplementation(libs.androidx.ui.tooling)
 
+    // ---- Android core ----
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+
+    // ---- Hilt ----
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // ---- Unit testing ----
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }

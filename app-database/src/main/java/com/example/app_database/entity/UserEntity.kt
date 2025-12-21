@@ -21,17 +21,6 @@ data class UserEntity(
 
 
 
-fun UserEntity.toDomain() = User(
-    id = id,
-    login = login,
-    name = name,
-    avatarUrl = avatarUrl,
-    bio = bio,
-    followers = followers,
-    following = following
-)
-
-
 
 
 

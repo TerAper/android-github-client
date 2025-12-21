@@ -12,13 +12,12 @@ import androidx.fragment.app.viewModels
 import com.aper.core.ui.AppComposeTheme
 import com.aper.core.ui.ToolbarController
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class RepositoriesFragment @Inject constructor(
-) : Fragment() {
+class RepositoriesFragment : Fragment() {
 
     private val viewModel: RepositoriesViewModel by viewModels()
+
     private val toolbarController: ToolbarController?
         get() = activity as? ToolbarController
 
@@ -39,7 +38,7 @@ class RepositoriesFragment @Inject constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbarController?.setToolbarTitle("ProfileRepos")
+        toolbarController?.setToolbarTitle("Profile Repos")
         toolbarController?.showToolbar()
     }
 }

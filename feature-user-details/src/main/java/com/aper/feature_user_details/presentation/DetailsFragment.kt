@@ -15,7 +15,6 @@ import com.aper.core.ui.BottomBarController
 import com.aper.core.ui.ToolbarController
 import com.aper.feature_user_details.R
 import com.aper.feature_user_details.databinding.FragmentDetailsBinding
-import com.yourname.githubclient.presentation.details.DetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

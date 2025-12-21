@@ -61,7 +61,6 @@ class ProfileFragment : Fragment() {
                 val theme by viewModel.selectedTheme.collectAsState()
 
                 AppComposeTheme(theme = theme) {
-
                     ProfileScreen(
                         username = username ?: "Unknown",
                         avatarUri = avatarUri,

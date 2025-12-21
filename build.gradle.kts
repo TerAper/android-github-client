@@ -8,9 +8,12 @@ plugins {
 
 subprojects {
 
-    configurations.all {
-        exclude(group = "xpp3", module = "xpp3")
-        exclude(group = "xmlpull", module = "xmlpull")
+    configurations.configureEach {
+        resolutionStrategy {
+            force("org.jetbrains.kotlin:kotlin-stdlib:${libs.versions.kotlin.get()}")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${libs.versions.kotlin.get()}")
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${libs.versions.kotlin.get()}")
+        }
     }
 
     plugins.withId("org.jetbrains.kotlin.android") {

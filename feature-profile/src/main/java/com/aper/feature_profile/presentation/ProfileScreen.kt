@@ -1,11 +1,14 @@
 package com.aper.feature_profile.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,7 +24,6 @@ fun ProfileScreen(
     onAvatarClick: () -> Unit,
     onLogout: () -> Unit
 ) {
-    val placeholderColor = MaterialTheme.colorScheme.onBackground // automatically adapts
 
     Column(
         modifier = Modifier
@@ -40,8 +42,14 @@ fun ProfileScreen(
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape)
-                .clickable(onClick = onAvatarClick),
-            colorFilter = if (avatarUri == null) ColorFilter.tint(placeholderColor) else null
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = LocalIndication.current,
+                    onClick = onAvatarClick
+                ),
+            colorFilter = if (avatarUri == null)
+                ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+            else null
         )
 
         Spacer(Modifier.height(16.dp))

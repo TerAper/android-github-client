@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-
 android {
     namespace = "com.aper.app"
     compileSdk = 35
@@ -13,19 +12,11 @@ android {
     defaultConfig {
         applicationId = "com.aper.app"
         minSdk = 24
+        targetSdk = 35
     }
 
     buildFeatures {
         viewBinding = true
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     compileOptions {
@@ -34,10 +25,9 @@ android {
     }
 }
 
-
 dependencies {
 
-    // Modules
+    // ---- Modules ----
     implementation(project(":core"))
     implementation(project(":app-network"))
     implementation(project(":app-database"))
@@ -48,37 +38,28 @@ dependencies {
     implementation(project(":feature-profile-repos"))
     implementation(project(":feature-all-users"))
 
-    implementation(libs.material.v1130)
-    testImplementation(libs.junit)
-    implementation(libs.androidx.core.splashscreen)
-
-    // Core
+    // ---- Android Core ----
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.splashscreen.v101)
 
-    // Navigation (XML)
+    // ---- Splash Screen ----
+    implementation(libs.androidx.core.splashscreen)
+
+    // ---- Navigation (XML) ----
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
-    // Navigation (Compose)
-    implementation(libs.androidx.navigation.compose)
-
-    // Lifecycle
+    // ---- Lifecycle ----
     implementation(libs.androidx.lifecycle.runtime)
-    implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime)
 
-    // Compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.ui.tooling.preview)
-    debugImplementation(libs.androidx.ui.tooling)
-
-    // Hilt
+    // ---- Hilt ----
     implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+
+    // ---- Test ----
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
+
 }

@@ -12,14 +12,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    session: AppSessionData
+    sessionData: AppSessionData
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppUiState())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
 
     val themeFlow: StateFlow<AppTheme> =
-        session.observe(SessionDataKey.ThemeKey)
+        sessionData.observe(SessionDataKey.ThemeKey)
             .map { it ?: AppTheme.SYSTEM }
             .distinctUntilChanged()
             .stateIn(
@@ -29,7 +29,7 @@ class MainViewModel @Inject constructor(
             )
 
     val isLoggedInFlow: StateFlow<Boolean> =
-        session.observe(SessionDataKey.IsLoggedInKey)
+        sessionData.observe(SessionDataKey.IsLoggedInKey)
             .map { it ?: false }
             .stateIn(
                 viewModelScope,

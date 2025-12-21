@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.kotlin.addTo
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -32,6 +33,7 @@ class RepositoriesViewModel @Inject constructor(
 
     val repositories = mutableStateOf<List<Repository>>(emptyList())
     val isRefreshing = mutableStateOf(false)
+
     val selectedTheme: StateFlow<AppTheme> =
         sessionData.observe(SessionDataKey.ThemeKey)
             .map { it ?: AppTheme.SYSTEM }
@@ -52,7 +54,7 @@ class RepositoriesViewModel @Inject constructor(
                 currentLogin = login
                 loadInitial()
             }
-            .let(disposables::add)
+            .addTo(disposables)
     }
 
     fun loadInitial() {
@@ -78,12 +80,12 @@ class RepositoriesViewModel @Inject constructor(
                     isLoading = false
                     isRefreshing.value = false
                 },
-                { error ->
+                {
                     isLoading = false
                     isRefreshing.value = false
                 }
             )
-            .let(disposables::add)
+            .addTo(disposables)
     }
 
     fun refresh() {

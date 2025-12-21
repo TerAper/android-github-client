@@ -1,7 +1,6 @@
-package com.yourname.githubclient.presentation.details
+package com.aper.feature_user_details.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.aper.core.model.Repository
 import com.aper.feature_user_details.domain.usecase.GetUserReposUseCaseForDetails
