@@ -6,23 +6,20 @@ plugins {
 }
 
 android {
-    namespace = "com.example.app_database"
+    namespace = "com.aper.app_database"
     compileSdk = 35
 
     defaultConfig {
         minSdk = 24
     }
 
-    buildFeatures {
-        viewBinding = true
-    }
-
 }
 
 
 dependencies {
-    implementation(project(":core"))
-    // Room
+
+    implementation(project(":core-android"))
+    implementation(project(":core-domain"))
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.room.rxjava3)

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.app_network"
+    namespace = "com.aper.app_network"
     compileSdk = 35
 
     defaultConfig {
@@ -20,8 +20,8 @@ android {
 
 dependencies {
 
-    // ---- Core (session data, domain models) ----
-    implementation(project(":core"))
+    implementation(project(":core-android"))
+    implementation(project(":core-domain"))    // ---- Core (session data, domain models) ----
 
     // ---- Retrofit + Moshi ----
     implementation(libs.retrofit)

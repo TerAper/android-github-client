@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_title">Sign in</string>
+    <string name="login_username_label">Username / Email</string>
+    <string name="login_token_label">Personal Access Token</string>
+    <string name="login_button">Sign In</string>
+    <string name="tool_bar_label">LogIn</string>
+</resources>

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.aper.feature_login.presentation.LoginFragment"
+        android:name="com.aper.presentation.LoginFragment"
         android:label="Login">
 
         <action

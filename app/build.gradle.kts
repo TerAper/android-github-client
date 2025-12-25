@@ -18,17 +18,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 }
 
 dependencies {
 
-    // ---- Modules ----
-    implementation(project(":core"))
+    implementation(project(":core-android"))
+    implementation(project(":core-domain"))
     implementation(project(":app-network"))
     implementation(project(":app-database"))
     implementation(project(":feature-login"))

@@ -5,14 +5,16 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import com.aper.core.ui.ToolbarController
-import com.aper.core.util.ThemeManager
+import com.aper.app.databinding.ActivityMainBinding
+import com.aper.core.model.AppTheme
+import com.aper.core_android.ui.ToolbarController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -21,7 +23,7 @@ class MainActivity : AppCompatActivity(), ToolbarController {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var navController: NavController
-    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    private lateinit var binding: ActivityMainBinding
     private var backClickListener: (() -> Unit)? = null
     private var settingsClickListener: (() -> Unit)? = null
     private var isAfterRecreation = true
@@ -31,15 +33,15 @@ class MainActivity : AppCompatActivity(), ToolbarController {
 
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
         WindowCompat.setDecorFitsSystemWindows(window, true)
         val navHost =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHost.navController
 
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             backClickListener?.invoke()
         }
 
@@ -69,7 +71,7 @@ class MainActivity : AppCompatActivity(), ToolbarController {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.themeFlow.collect { theme ->
-                    ThemeManager.apply(theme)
+                    applyTheme(theme)
                 }
             }
         }
@@ -91,14 +93,14 @@ class MainActivity : AppCompatActivity(), ToolbarController {
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.action_settings)?.isVisible =
-            viewModel.uiState.value.isSettingsVisible
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.action_settings)?.isVisible =
+            viewModel.uiState.value.isSettingsVisible
         return true
     }
 
@@ -124,6 +126,15 @@ class MainActivity : AppCompatActivity(), ToolbarController {
     override fun setBackNavigationEnabled(enabled: Boolean, onBackClicked: (() -> Unit)?) {
         viewModel.setBackEnabled(enabled)
         backClickListener = if (enabled) onBackClicked else null
+    }
+
+    private fun applyTheme(theme: AppTheme) {
+        val mode = when (theme) {
+            AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+            AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+            AppTheme.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        AppCompatDelegate.setDefaultNightMode(mode)
     }
 
 }

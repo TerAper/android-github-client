@@ -8,7 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.aper.app.databinding.FragmentMainFlowBinding
 import com.aper.core.navigation.MainFlowNavigator
-import com.aper.core.ui.BottomBarController
+import com.aper.core_android.ui.BottomBarController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,22 +29,13 @@ class MainFlowFragment :
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainFlowBinding.bind(view)
 
-        val navHostFragment =
-            childFragmentManager.findFragmentById(R.id.mainFlowNavHost) as NavHostFragment
-        val navController = navHostFragment.navController
-
         binding.bottomNav.setupWithNavController(navController)
 
-        binding.bottomNav.setOnItemReselectedListener { /* do nothing */ }
     }
 
 
     override fun navigateToSettings() {
         navController.navigate(R.id.settingsFragment)
-    }
-
-    override fun popBack() {
-        navController.popBackStack()
     }
 
     override fun navigateToDetails(
