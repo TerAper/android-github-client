@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class SettingsModule {
+interface SettingsModule {
 
     @Binds
     @Singleton
-    abstract fun bindAppSessionData(
+    fun bindAppSessionData(
         impl: AppSettingsDataManager
     ): AppSettingsData
 }

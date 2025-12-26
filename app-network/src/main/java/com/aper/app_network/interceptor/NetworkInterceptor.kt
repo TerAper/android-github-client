@@ -1,8 +1,6 @@
 package com.aper.app_network.interceptor
 
-import android.util.Log
 import com.aper.core.session.AppSessionData
-import com.aper.core.session.SessionDataKey
 import com.aper.core_android.di.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -20,7 +18,7 @@ class NetworkInterceptor @Inject constructor(
 
     init {
         appScope.launch {
-            sessionData.observe(SessionDataKey.TokenKey)
+            sessionData.observeToken()
                 .collect { newToken ->
                     token = newToken
                 }

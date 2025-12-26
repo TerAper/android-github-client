@@ -9,10 +9,10 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ProfileRepoModule {
+interface ProfileRepoModule {
 
     @Binds
-    abstract fun bindProfileRepoRepository(
+    fun bindProfileRepoRepository(
         impl: ProfileRepoRepositoryImpl
     ): ProfileRepoRepository
 }

@@ -41,7 +41,7 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     // ---- Navigation (XML) ----
-    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui)
 
     // ---- Lifecycle ----

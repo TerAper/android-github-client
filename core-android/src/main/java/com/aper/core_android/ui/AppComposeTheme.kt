@@ -3,6 +3,8 @@ package com.aper.core_android.ui
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import com.aper.core.model.AppTheme
 
@@ -23,6 +25,9 @@ private val DarkColors = darkColorScheme(
     primary = Color(0xFFBB86FC),
     onPrimary = Color.Black
 )
+val LocalAppTheme = staticCompositionLocalOf{
+    AppTheme.SYSTEM
+}
 
 @Composable
 fun AppComposeTheme(
@@ -34,10 +39,13 @@ fun AppComposeTheme(
         AppTheme.LIGHT -> false
         AppTheme.SYSTEM -> isSystemInDarkTheme()
     }
-
-    MaterialTheme(
-        colorScheme = if (darkTheme) DarkColors else LightColors,
-        typography = Typography(),
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalAppTheme provides theme
+    ) {
+        MaterialTheme(
+            colorScheme = if (darkTheme) DarkColors else LightColors,
+            typography = Typography(),
+            content = content
+        )
+    }
 }

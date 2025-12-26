@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="toolbar_label">UserDetails</string>
+    <string name="details_title">UserDetails</string>
 </resources>

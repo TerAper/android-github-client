@@ -18,11 +18,16 @@ class DetailsRepositoryImpl @Inject constructor(
 
     override suspend fun getUserRepos(login: String): List<UserRepos> {
         return if (networkChecker.isOnline()) {
-            val userRepos = api.getUserRepos(login)
+
+            val remoteRepos = api.getUserRepos(login)
+
+            val entities = remoteRepos.map { it.toEntity() }
+
             repoDao.clearRepos(login)
-            val userReposEntity = userRepos.map { it.toEntity() }
-            repoDao.insertRepositories(userReposEntity)
-            userReposEntity.map { it.toDomain() }
+            repoDao.insertRepositories(entities)
+
+            entities.map { it.toDomain() }
+
         } else {
             repoDao.getRepos(login).map { it.toDomain() }
         }

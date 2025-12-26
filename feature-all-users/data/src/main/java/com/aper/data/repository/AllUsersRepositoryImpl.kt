@@ -1,7 +1,6 @@
 package com.aper.data.repository
 
 import com.aper.core.session.AppSessionData
-import com.aper.core.session.SessionDataKey
 import com.aper.app_database.dao.RepositoryDao
 import com.aper.app_database.dao.UserDao
 import com.aper.core_android.network.NetworkChecker
@@ -48,7 +47,7 @@ class AllUsersRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearCachedUsersRepos() {
-        val profileUserName = sessionData.observe(SessionDataKey.LoginKey).firstOrNull() ?: return
+        val profileUserName = sessionData.observeLogin().firstOrNull() ?: return
         repoDao.clearAllReposExcept(profileUserName)
     }
 

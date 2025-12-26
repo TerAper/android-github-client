@@ -81,7 +81,6 @@ androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-kt
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
 # Navigation
-androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 androidx-navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }

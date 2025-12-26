@@ -15,25 +15,26 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.aper.core.navigation.MainFlowNavigator
 import com.aper.core_android.ui.AppComposeTheme
 import com.aper.core_android.ui.BottomBarController
 import com.aper.core_android.ui.ToolbarController
-import com.aper.feature_profile.presentation.R
 import com.aper.presentation.event.ProfileUiEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import androidx.navigation.fragment.findNavController
+import androidx.core.net.toUri
+import com.aper.core_android.ui.BaseComposeFragment
+import com.aper.feature_profile.presentation.R
+
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseComposeFragment() {
 
     private val viewModel: ProfileViewModel by viewModels()
 
     private val toolbarController: ToolbarController?
         get() = activity as? ToolbarController
 
-    private val navigator: MainFlowNavigator?
-        get() = parentFragment?.parentFragment as? MainFlowNavigator
 
     private val bottomBarController: BottomBarController?
         get() = parentFragment?.parentFragment as? BottomBarController
@@ -64,9 +65,8 @@ class ProfileFragment : Fragment() {
             setContent {
                 val username by viewModel.username.collectAsStateWithLifecycle()
                 val avatarUri by viewModel.avatarUri.collectAsStateWithLifecycle()
-                val theme by viewModel.selectedTheme.collectAsStateWithLifecycle()
 
-                AppComposeTheme(theme = theme) {
+                AppTheme {
                     ProfileScreen(
                         username = username ?: "Unknown",
                         avatarUri = avatarUri,
@@ -87,7 +87,7 @@ class ProfileFragment : Fragment() {
     private fun setupToolbarAndBottomBar() {
         toolbarController?.apply {
             showToolbar()
-            setToolbarTitle(getString(R.string.tool_bar_label))
+            setToolbarTitle(getString(R.string.profile_bar_title))
             setSettingsEnabled(
                 enabled = true,
                 onSettingsClicked = {
@@ -104,7 +104,7 @@ class ProfileFragment : Fragment() {
                 viewModel.events.collect { event ->
                     when (event) {
                         ProfileUiEvent.NavigateToSettings ->
-                            navigator?.navigateToSettings()
+                            findNavController().navigate("app://settings".toUri())
 
                         ProfileUiEvent.PickAvatar ->
                             openImagePicker()

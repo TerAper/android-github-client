@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aper.core.model.AppTheme
 import com.aper.core.settings.AppSettingsData
-import com.aper.core.settings.SettingsDataKey
 import com.aper.core.util.asState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -22,7 +21,7 @@ class SettingsViewModel @Inject constructor(
 
     fun onThemeSelected(theme: AppTheme) {
         viewModelScope.launch {
-            appSettingsData.set(SettingsDataKey.ThemeKey,theme)
+            appSettingsData.setTheme(theme)
         }
     }
 }

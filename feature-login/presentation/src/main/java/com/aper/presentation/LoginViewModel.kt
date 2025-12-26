@@ -2,9 +2,7 @@ package com.aper.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aper.core.model.AppTheme
 import com.aper.core.settings.AppSettingsData
-import com.aper.core.util.asState
 import com.aper.domain.usecase.AuthenticateUserUseCase
 import com.aper.domain.usecase.ClearSessionUseCase
 import com.aper.domain.usecase.CompleteLoginUseCase
@@ -27,9 +25,6 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
-    val selectedTheme: StateFlow<AppTheme> = appSettingsData.observeTheme()
-        .asState(viewModelScope, AppTheme.SYSTEM)
-
     fun onUserNameChange(value: String) {
         _uiState.update { it.copy(userName = value) }
     }
@@ -47,17 +42,20 @@ class LoginViewModel @Inject constructor(
             authenticateUser(state.userName, state.password)
                 .onSuccess { user ->
                     completeLogin(
-                        token = state.password,
+                        loggedIn = true,
                         login = user.login
                     )
                     _uiState.update { it.copy(isLoading = false) }
                 }
                 .onFailure { e ->
                     clearSession()
+
+                    val message = e.message ?: "Authentication failed"
+
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            errorMessage = e.message ?: "Authentication failed"
+                            errorMessage = message
                         )
                     }
                 }

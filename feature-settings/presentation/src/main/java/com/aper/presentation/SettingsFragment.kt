@@ -12,11 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.fragment.findNavController
 import com.aper.core_android.ui.AppComposeTheme
+import com.aper.core_android.ui.BaseComposeFragment
+import com.aper.core_android.ui.LocalAppTheme
 import com.aper.feature_settings.presentation.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseComposeFragment() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -36,10 +38,8 @@ class SettingsFragment : Fragment() {
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
             setContent {
-                val theme by viewModel.selectedTheme.collectAsStateWithLifecycle()
-                AppComposeTheme(theme = theme) {
+                AppTheme {
                     SettingsScreen(
-                        selectedTheme = theme,
                         onThemeSelected = viewModel::onThemeSelected
                     )
                 }
@@ -56,7 +56,7 @@ class SettingsFragment : Fragment() {
     private fun setupToolbarAndBottomBar() {
         toolbarController?.apply {
             showToolbar()
-            setToolbarTitle(getString(R.string.tool_bar_label))
+            setToolbarTitle(getString(R.string.settings_title))
             setBackNavigationEnabled(true) {
                 findNavController().popBackStack()
             }

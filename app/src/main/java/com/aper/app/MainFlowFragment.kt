@@ -1,20 +1,19 @@
 package com.aper.app
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.aper.app.databinding.FragmentMainFlowBinding
-import com.aper.core.navigation.MainFlowNavigator
 import com.aper.core_android.ui.BottomBarController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainFlowFragment :
     Fragment(R.layout.fragment_main_flow),
-    MainFlowNavigator,
     BottomBarController {
 
     private lateinit var binding: FragmentMainFlowBinding
@@ -30,25 +29,13 @@ class MainFlowFragment :
         binding = FragmentMainFlowBinding.bind(view)
 
         binding.bottomNav.setupWithNavController(navController)
-
-    }
-
-
-    override fun navigateToSettings() {
-        navController.navigate(R.id.settingsFragment)
-    }
-
-    override fun navigateToDetails(
-        userName: String,
-        avatarUrl: String
-    ) {
-        navController.navigate(
-            R.id.action_allUsersFragment_to_detailsFragment,
-            bundleOf(
-                "login" to userName,
-                "avatarUrl" to avatarUrl
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            Log.d(
+                "CHILD_NAV_TRACE",
+                "Destination=${destination.displayName}, label=${destination.label}"
             )
-        )
+        }
+
     }
 
     override fun showBottomBar() {

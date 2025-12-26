@@ -2,15 +2,18 @@ package com.aper.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aper.core.navigation.MainFlowNavigator
+import com.aper.core_android.ui.BottomBarController
+import com.aper.core_android.ui.ToolbarController
 import com.aper.feature_all_users.presentation.R
 import com.aper.feature_all_users.presentation.databinding.FragmentAllUsersBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,14 +25,12 @@ class AllUsersFragment : Fragment(R.layout.fragment_all_users) {
     private val viewModel: AllUsersViewModel by viewModels()
     private lateinit var binding: FragmentAllUsersBinding
     private lateinit var adapter: AllUsersAdapter
-    private val toolbarController: com.aper.core_android.ui.ToolbarController?
-        get() = activity as? com.aper.core_android.ui.ToolbarController
 
-    private val navigator: MainFlowNavigator?
-        get() = parentFragment?.parentFragment as? MainFlowNavigator
+    private val toolbarController: ToolbarController?
+        get() = activity as? ToolbarController
 
-    private val bottomBarController: com.aper.core_android.ui.BottomBarController?
-        get() = parentFragment?.parentFragment as? com.aper.core_android.ui.BottomBarController
+    private val bottomBarController: BottomBarController?
+        get() = parentFragment?.parentFragment as? BottomBarController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +46,7 @@ class AllUsersFragment : Fragment(R.layout.fragment_all_users) {
     private fun setupToolbarAndBottomBar(){
         toolbarController?.apply {
             showToolbar()
-            setToolbarTitle(getString(R.string.toolbar_label))
+            setToolbarTitle(getString(R.string.all_users_title))
             setSettingsEnabled(false,null)
             setBackNavigationEnabled(false,null)
         }
@@ -54,7 +55,7 @@ class AllUsersFragment : Fragment(R.layout.fragment_all_users) {
 
     private fun setupRecycler() {
         adapter = AllUsersAdapter { login, avatarUrl ->
-            navigator?.navigateToDetails(login, avatarUrl)
+            findNavController().navigate("app://details?login=$login&avatarUrl=$avatarUrl".toUri())
         }
 
         binding.recyclerView.layoutManager =

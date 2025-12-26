@@ -3,7 +3,6 @@ package com.aper.presentation
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aper.core.model.AppTheme
 import com.aper.core.settings.AppSettingsData
 import com.aper.core.util.asState
 import com.aper.presentation.event.ProfileUiEvent
@@ -13,7 +12,6 @@ import com.aper.domain.usecase.LogoutUseCase
 import com.aper.domain.usecase.SaveAvatarUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,9 +34,6 @@ class ProfileViewModel @Inject constructor(
 
     private val _events = MutableSharedFlow<ProfileUiEvent>()
     val events = _events.asSharedFlow()
-
-    val selectedTheme: StateFlow<AppTheme> = appSettingsData.observeTheme()
-        .asState(viewModelScope, AppTheme.SYSTEM)
 
     fun onSettingsClick() {
         emitEvent(ProfileUiEvent.NavigateToSettings)

@@ -45,6 +45,12 @@ class MainActivity : AppCompatActivity(), ToolbarController {
             backClickListener?.invoke()
         }
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            android.util.Log.d(
+                "NAV_TRACE",
+                "Destination=${destination.displayName}, label=${destination.label}"
+            )
+        }
         decideStartDestination(savedInstanceState)
         observeTheme()
         observeToolbar()

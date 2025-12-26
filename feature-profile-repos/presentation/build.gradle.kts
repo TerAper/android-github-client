@@ -32,6 +32,7 @@ dependencies {
     implementation(project(":feature-profile-repos:domain"))
     implementation(project(":feature-profile-repos:data"))
 
+
     // --- AndroidX ---
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)

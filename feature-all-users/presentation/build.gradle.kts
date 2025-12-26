@@ -23,10 +23,11 @@ dependencies {
 
     implementation(project(":core-android"))
     implementation(project(":core-domain"))
-
-    // --- Project modules ---
     implementation(project(":feature-all-users:domain"))
     implementation(project(":feature-all-users:data"))
+
+    implementation(libs.androidx.navigation.fragment.ktx)
+
 
     // --- Android UI ---
     implementation(libs.androidx.appcompat)

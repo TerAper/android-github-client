@@ -69,7 +69,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         toolbarController?.apply {
             showToolbar()
             setSettingsEnabled(false, null)
-            setToolbarTitle(getString(R.string.toolbar_label))
+            setToolbarTitle(getString(R.string.details_title))
             setBackNavigationEnabled(true) {
                 findNavController().popBackStack()
             }

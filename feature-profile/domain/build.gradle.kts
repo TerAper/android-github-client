@@ -7,7 +7,6 @@ kotlin {
 dependencies {
     implementation(project(":core-domain"))
 
-    implementation(kotlin("stdlib"))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.javax.inject)
     testImplementation(libs.junit)

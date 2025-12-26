@@ -1,11 +1,7 @@
 package com.aper.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.aper.core.model.AppTheme
 import com.aper.core.settings.AppSettingsData
-import com.aper.core.settings.SettingsDataKey
-import com.aper.core.util.asState
 import com.aper.domain.usecase.GetProfileReposUseCase
 import com.aper.domain.usecase.ObserveUsernameRxUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,10 +32,6 @@ class ProfileReposViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(ProfileReposUiState())
     val uiState: StateFlow<ProfileReposUiState> = _uiState.asStateFlow()
-
-    val selectedTheme =
-        settingsData.observe(SettingsDataKey.ThemeKey)
-            .asState(viewModelScope, AppTheme.SYSTEM)
 
     init {
         observeUsernameRxUseCase.username

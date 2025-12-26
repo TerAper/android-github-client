@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.aper.app.ui.AppUiState
 import com.aper.core.model.AppTheme
 import com.aper.core.session.AppSessionData
-import com.aper.core.session.SessionDataKey
 import com.aper.core.settings.AppSettingsData
-import com.aper.core.settings.SettingsDataKey
 import com.aper.core.util.asState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -23,13 +21,12 @@ class MainViewModel @Inject constructor(
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
 
     val themeFlow: StateFlow<AppTheme> =
-        appSettingsData.observe(SettingsDataKey.ThemeKey)
+        appSettingsData.observeTheme()
             .asState(viewModelScope, AppTheme.SYSTEM)
 
 
     val isLoggedInFlow: StateFlow<Boolean> =
-        sessionData.observe(SessionDataKey.IsLoggedInKey)
-            .map { it == true }
+        sessionData.observeIsLoggedIn()
             .asState(viewModelScope, false)
 
     fun showToolbar() {

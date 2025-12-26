@@ -30,6 +30,8 @@ dependencies {
     implementation(project(":feature-profile:domain"))
     implementation(project(":feature-profile:data"))
 
+    implementation(libs.androidx.navigation.fragment.ktx)
+
     // Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

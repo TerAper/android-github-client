@@ -11,16 +11,14 @@ import com.aper.feature_login.presentation.R
 
 @Composable
 fun LoginScreen(
-    padding: PaddingValues,
+    modifier: Modifier = Modifier,
     state: LoginUiState,
     onUsernameChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit
 ) {
     Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding),
+        modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         Column(

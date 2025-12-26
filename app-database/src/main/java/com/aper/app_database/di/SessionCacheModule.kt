@@ -11,12 +11,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class SessionCacheModule {
+interface SessionCacheModule {
 
     @Binds
     @IntoSet
     @Singleton
-    abstract fun bindRepositorySessionCache(
+    fun bindRepositorySessionCache(
         impl: RepositorySessionCacheManager
     ): SessionCache
 }
