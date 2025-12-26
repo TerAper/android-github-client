@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import com.aper.core.model.AppTheme
+import com.aper.core_domain.model.AppTheme
 
 private val LightColors = lightColorScheme(
     background = Color.White,

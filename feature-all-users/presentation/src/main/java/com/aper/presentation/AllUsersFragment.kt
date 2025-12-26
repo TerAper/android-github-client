@@ -2,7 +2,7 @@ package com.aper.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -55,7 +55,15 @@ class AllUsersFragment : Fragment(R.layout.fragment_all_users) {
 
     private fun setupRecycler() {
         adapter = AllUsersAdapter { login, avatarUrl ->
-            findNavController().navigate("app://details?login=$login&avatarUrl=$avatarUrl".toUri())
+            val bundle = bundleOf(
+                "login" to login,
+                "avatarUrl" to avatarUrl
+            )
+
+            findNavController().navigate(
+                com.aper.feature_user_details.presentation.R.id.user_details_graph,
+                bundle
+            )
         }
 
         binding.recyclerView.layoutManager =

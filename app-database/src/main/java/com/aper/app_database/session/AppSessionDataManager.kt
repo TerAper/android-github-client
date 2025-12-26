@@ -1,7 +1,7 @@
 package com.aper.app_database.session
 
-import com.aper.core.session.AppSessionData
 import com.aper.app_database.datastore.PreferenceDataStore
+import com.aper.core_domain.session.AppSessionData
 import javax.inject.Inject
 
 class AppSessionDataManager @Inject constructor(

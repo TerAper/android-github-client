@@ -1,6 +1,6 @@
 package com.aper.domain.usecase
 
-import com.aper.core.session.AppSessionData
+import com.aper.core_domain.session.AppSessionData
 import javax.inject.Inject
 
 class GetUserNameUseCase @Inject constructor(

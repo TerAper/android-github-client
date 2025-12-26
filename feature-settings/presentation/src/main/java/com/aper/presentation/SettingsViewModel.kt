@@ -2,11 +2,9 @@ package com.aper.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aper.core.model.AppTheme
-import com.aper.core.settings.AppSettingsData
-import com.aper.core.util.asState
+import com.aper.core_domain.model.AppTheme
+import com.aper.core_domain.settings.AppSettingsData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -29,12 +29,6 @@ class MainFlowFragment :
         binding = FragmentMainFlowBinding.bind(view)
 
         binding.bottomNav.setupWithNavController(navController)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            Log.d(
-                "CHILD_NAV_TRACE",
-                "Destination=${destination.displayName}, label=${destination.label}"
-            )
-        }
 
     }
 

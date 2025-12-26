@@ -104,7 +104,7 @@ class ProfileFragment : BaseComposeFragment() {
                 viewModel.events.collect { event ->
                     when (event) {
                         ProfileUiEvent.NavigateToSettings ->
-                            findNavController().navigate("app://settings".toUri())
+                            findNavController().navigate(com.aper.feature_settings.presentation.R.id.setting_graph)
 
                         ProfileUiEvent.PickAvatar ->
                             openImagePicker()

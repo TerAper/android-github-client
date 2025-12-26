@@ -1,4 +1,4 @@
-package com.aper.core
+package com.aper.core_domain
 
 import org.junit.Test
 

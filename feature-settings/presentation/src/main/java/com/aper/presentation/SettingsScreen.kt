@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.aper.core_android.ui.LocalAppTheme
-import com.aper.core.model.AppTheme
+import com.aper.core_domain.model.AppTheme
 import com.aper.feature_settings.presentation.R
 
 @Composable

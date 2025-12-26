@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.aper.core.android"
+    namespace = "com.aper.core_domain.android"
     compileSdk = 35
 
     defaultConfig {

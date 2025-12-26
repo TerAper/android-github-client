@@ -1,12 +1,11 @@
 package com.aper.app_database.di
 
-import com.aper.app_database.session.cache.RepositorySessionCacheManager
-import com.aper.core.session.cache.SessionCache
+import com.aper.app_database.session.cache.SessionCacheManager
+import com.aper.core_domain.session.cache.SessionCache
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoSet
 import javax.inject.Singleton
 
 @Module
@@ -14,9 +13,8 @@ import javax.inject.Singleton
 interface SessionCacheModule {
 
     @Binds
-    @IntoSet
     @Singleton
     fun bindRepositorySessionCache(
-        impl: RepositorySessionCacheManager
+        impl: SessionCacheManager
     ): SessionCache
 }

@@ -1,6 +1,6 @@
 package com.aper.data.repository
 
-import com.aper.core.session.AppSessionData
+import com.aper.core_domain.session.AppSessionData
 import com.aper.app_database.dao.RepositoryDao
 import com.aper.app_database.dao.UserDao
 import com.aper.core_android.network.NetworkChecker
@@ -43,7 +43,7 @@ class AllUsersRepositoryImpl @Inject constructor(
 
 
     override suspend fun clearCachedUsers() {
-        userDao.clearAll()
+        userDao.clearAllUsers()
     }
 
     override suspend fun clearCachedUsersRepos() {

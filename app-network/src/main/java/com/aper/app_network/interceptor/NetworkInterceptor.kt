@@ -1,7 +1,7 @@
 package com.aper.app_network.interceptor
 
-import com.aper.core.session.AppSessionData
 import com.aper.core_android.di.ApplicationScope
+import com.aper.core_domain.session.AppSessionData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import okhttp3.Interceptor

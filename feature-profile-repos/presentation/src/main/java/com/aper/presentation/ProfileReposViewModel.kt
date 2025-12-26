@@ -1,7 +1,6 @@
 package com.aper.presentation
 
 import androidx.lifecycle.ViewModel
-import com.aper.core.settings.AppSettingsData
 import com.aper.domain.usecase.GetProfileReposUseCase
 import com.aper.domain.usecase.ObserveUsernameRxUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

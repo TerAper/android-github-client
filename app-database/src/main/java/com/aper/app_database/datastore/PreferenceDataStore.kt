@@ -3,8 +3,8 @@ package com.aper.app_database.datastore
 import android.content.Context
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.aper.core.model.AppTheme
 import com.aper.core_android.security.CryptoManager
+import com.aper.core_domain.model.AppTheme
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

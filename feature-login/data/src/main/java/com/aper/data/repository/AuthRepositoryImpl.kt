@@ -1,6 +1,6 @@
 package com.aper.data.repository
 
-import com.aper.core.session.AppSessionData
+import com.aper.core_domain.session.AppSessionData
 import com.aper.data.api.LoginApi
 import com.aper.data.mapper.toDomain
 import com.aper.domain.model.LogInUser

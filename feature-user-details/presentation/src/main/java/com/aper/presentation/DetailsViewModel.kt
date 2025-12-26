@@ -30,7 +30,7 @@ class DetailsViewModel @Inject constructor(
                     repos = repos,
                     isLoading = false
                 )
-            }.onFailure { error ->
+            }.onFailure {
                 _uiState.value = DetailsUiState(
                     isLoading = false,
                 )

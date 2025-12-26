@@ -2,7 +2,6 @@ package com.aper.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aper.core.settings.AppSettingsData
 import com.aper.domain.usecase.AuthenticateUserUseCase
 import com.aper.domain.usecase.ClearSessionUseCase
 import com.aper.domain.usecase.CompleteLoginUseCase

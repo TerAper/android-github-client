@@ -19,7 +19,7 @@ interface UserDao {
     suspend fun insertUsers(users: List<UserEntity>)
 
     @Query("DELETE FROM users")
-    suspend fun clearAll()
+    suspend fun clearAllUsers()
 
     @Query("SELECT id FROM users ORDER BY id DESC LIMIT 1")
     suspend fun getLastUserId(): Int?

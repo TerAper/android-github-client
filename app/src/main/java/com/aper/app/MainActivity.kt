@@ -13,7 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.aper.app.databinding.ActivityMainBinding
-import com.aper.core.model.AppTheme
+import com.aper.core_domain.model.AppTheme
 import com.aper.core_android.ui.ToolbarController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -45,12 +45,6 @@ class MainActivity : AppCompatActivity(), ToolbarController {
             backClickListener?.invoke()
         }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            android.util.Log.d(
-                "NAV_TRACE",
-                "Destination=${destination.displayName}, label=${destination.label}"
-            )
-        }
         decideStartDestination(savedInstanceState)
         observeTheme()
         observeToolbar()
@@ -66,7 +60,7 @@ class MainActivity : AppCompatActivity(), ToolbarController {
                     if (it) R.id.mainFlowFragment else R.id.loginFragment,
                     null,
                     NavOptions.Builder()
-                        .setPopUpTo(R.id.nav_host_fragment, true)
+                        .setPopUpTo(R.id.auth_graph, true)
                         .build()
                 )
             }

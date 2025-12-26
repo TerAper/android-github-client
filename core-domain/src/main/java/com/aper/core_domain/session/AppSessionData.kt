@@ -1,4 +1,4 @@
-package com.aper.core.session
+package com.aper.core_domain.session
 
 import kotlinx.coroutines.flow.Flow
 

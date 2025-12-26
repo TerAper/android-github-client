@@ -1,6 +1,6 @@
 package com.aper.app_database.di
 
-import com.aper.core.session.AppSessionData
+import com.aper.core_domain.session.AppSessionData
 import com.aper.app_database.session.AppSessionDataManager
 import dagger.Binds
 import dagger.Module

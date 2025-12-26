@@ -29,6 +29,8 @@ dependencies {
     implementation(project(":core-domain"))
     implementation(project(":feature-profile:domain"))
     implementation(project(":feature-profile:data"))
+    implementation(project(":feature-settings:presentation"))
+
 
     implementation(libs.androidx.navigation.fragment.ktx)
 

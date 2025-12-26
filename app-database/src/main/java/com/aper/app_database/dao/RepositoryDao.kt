@@ -30,7 +30,7 @@ interface RepositoryDao {
     fun clearReposRx()
 
     @Query("DELETE FROM repositories")
-    suspend fun clearRepos()
+    suspend fun clearAllRepos()
 
     @Query("DELETE FROM repositories WHERE owner != :username")
     suspend fun clearAllReposExcept(username: String)

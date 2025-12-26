@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <!-- Container for screens -->
+    =
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainFlowNavHost"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        app:defaultNavHost="false"
-        app:navGraph="@navigation/main_flow_graph"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_flow_graph" />
 
-    <!-- Bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/main_flow_menu"/>
+        app:menu="@menu/main_flow_menu" />
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.aper.core.util
+package com.aper.core_domain.util
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*

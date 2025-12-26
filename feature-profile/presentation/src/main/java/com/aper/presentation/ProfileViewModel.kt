@@ -3,8 +3,7 @@ package com.aper.presentation
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aper.core.settings.AppSettingsData
-import com.aper.core.util.asState
+import com.aper.core_domain.util.asState
 import com.aper.presentation.event.ProfileUiEvent
 import com.aper.domain.usecase.GetAvatarUseCase
 import com.aper.domain.usecase.GetUserNameUseCase

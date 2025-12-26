@@ -12,43 +12,14 @@
     <fragment
         android:id="@+id/allUsersFragment"
         android:name="com.aper.presentation.AllUsersFragment"
-        android:label="Users">
-
-        <action
-            android:id="@+id/action_allUsersFragment_to_detailsFragment"
-            app:destination="@id/usersDetailsFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/usersDetailsFragment"
-        android:name="com.aper.presentation.DetailsFragment"
-        android:label="Details">
-
-        <argument
-            android:name="login"
-            app:argType="string" />
-
-        <argument
-            android:name="avatarUrl"
-            app:argType="string" />
-        <deepLink app:uri="app://details?login={login}&amp;avatarUrl={avatarUrl}" />
-    </fragment>
+        android:label="Users"/>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.aper.presentation.ProfileFragment"
-        android:label="Profile">
+        android:label="Profile"/>
 
-        <action
-            android:id="@+id/action_profile_to_settings"
-            app:destination="@id/settingsFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.aper.presentation.SettingsFragment"
-        android:label="Settings">
-        <deepLink app:uri="app://settings" />
-    </fragment>
+    <include app:graph="@navigation/settings_graph"/>
+    <include app:graph="@navigation/user_details_graph"/>
 
 </navigation>
