@@ -22,8 +22,6 @@ class ProfileViewModel @Inject constructor(
     private val saveAvatarUseCase: SaveAvatarUseCase,
     getAvatarUseCase: GetAvatarUseCase,
     getUserNameUseCase: GetUserNameUseCase,
-    appSettingsData: AppSettingsData
-
 ) : ViewModel() {
 
     val avatarUri = getAvatarUseCase()

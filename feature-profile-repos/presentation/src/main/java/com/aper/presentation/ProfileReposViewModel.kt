@@ -19,7 +19,6 @@ import javax.inject.Inject
 class ProfileReposViewModel @Inject constructor(
     private val getProfileRepositoriesUseCase: GetProfileReposUseCase,
     observeUsernameRxUseCase: ObserveUsernameRxUseCase,
-    settingsData: AppSettingsData
 ) : ViewModel() {
 
     private val disposables = CompositeDisposable()

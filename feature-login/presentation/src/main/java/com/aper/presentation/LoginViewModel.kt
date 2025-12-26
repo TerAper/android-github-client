@@ -19,7 +19,6 @@ class LoginViewModel @Inject constructor(
     private val authenticateUser: AuthenticateUserUseCase,
     private val completeLogin: CompleteLoginUseCase,
     private val clearSession: ClearSessionUseCase,
-    appSettingsData: AppSettingsData
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginUiState())

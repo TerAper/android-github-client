@@ -15,10 +15,6 @@ class SettingsViewModel @Inject constructor(
     private val appSettingsData: AppSettingsData
 ) : ViewModel() {
 
-    val selectedTheme: StateFlow<AppTheme> =
-        appSettingsData.observeTheme()
-            .asState(viewModelScope, AppTheme.SYSTEM)
-
     fun onThemeSelected(theme: AppTheme) {
         viewModelScope.launch {
             appSettingsData.setTheme(theme)
