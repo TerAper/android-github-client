@@ -13,5 +13,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature-login:presentation"))
+    implementation(projects.featureLogin.presentation)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso)
 }

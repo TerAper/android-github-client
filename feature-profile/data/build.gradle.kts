@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
@@ -15,12 +17,13 @@ android {
 }
 
 dependencies {
+    
+    implementation(projects.coreAndroid)
+    implementation(projects.appNetwork)
+    implementation(projects.appDatabase)
+    implementation(projects.featureProfile.domain)
 
-    implementation(project(":core-android"))
-    // --- Project modules ---
-    implementation(project(":feature-profile:domain"))
-    implementation(project(":app-network"))
-    implementation(project(":app-database"))
+
 
     // --- DI ---
     implementation(libs.hilt.android)
@@ -28,8 +31,8 @@ dependencies {
 
     // --- Networking / DB (if used) ---
     implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
-    implementation(libs.moshi.kotlin)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.kotlinx.serialization)
 
     // --- Android basics ---
     implementation(libs.androidx.core.ktx)

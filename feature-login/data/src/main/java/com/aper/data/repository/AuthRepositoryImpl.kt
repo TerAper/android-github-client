@@ -3,6 +3,7 @@ package com.aper.data.repository
 import com.aper.core_domain.session.AppSessionData
 import com.aper.data.api.LoginApi
 import com.aper.data.mapper.toDomain
+import com.aper.domain.error.AuthException
 import com.aper.domain.model.LogInUser
 import com.aper.domain.repository.AuthRepository
 import javax.inject.Inject
@@ -12,7 +13,8 @@ class AuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
 
     override suspend fun authenticate(
-        login: String, token: String
+        login: String,
+        token: String
     ): Result<LogInUser> =
         runCatching {
 
@@ -23,22 +25,26 @@ class AuthRepositoryImpl @Inject constructor(
             if (login.contains("@")) {
                 val emails = api.getUserEmails()
 
-                val matchedEmail = emails.filter { it.verified }.sortedByDescending { it.primary }
+                val matchedEmail = emails
+                    .filter { it.verified }
+                    .sortedByDescending { it.primary }
                     .firstOrNull { it.email.equals(login, ignoreCase = true) }
 
                 if (matchedEmail == null) {
-                    throw IllegalStateException(
-                        "Verified email does not match token"
-                    )
+                    throw AuthException.EmailMismatch
                 }
             } else {
                 if (!user.login.equals(login, ignoreCase = true)) {
-                    throw IllegalStateException(
-                        "Username does not match token"
-                    )
+                    throw AuthException.UsernameMismatch
                 }
             }
 
             user
+        }.recoverCatching { throwable ->
+            when (throwable) {
+                is AuthException -> throw throwable
+                else -> throw AuthException.Unknown(throwable)
+            }
+
         }
 }

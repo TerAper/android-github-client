@@ -8,15 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.Fragment
+import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aper.core_android.ui.AppComposeTheme
 import com.aper.core_android.ui.BaseComposeFragment
 import com.aper.core_android.ui.ToolbarController
 import com.aper.feature_login.presentation.R
@@ -30,37 +30,34 @@ class LoginFragment : BaseComposeFragment() {
     private val toolbarController: ToolbarController?
         get() = activity as? ToolbarController
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View = ComposeView(requireContext()).apply {
+    @Composable
+    override fun ScreenContent() {
+        val state by viewModel.uiState.collectAsStateWithLifecycle()
+        val snackbarHostState = remember { SnackbarHostState() }
+        val context = LocalContext.current
 
-        setContent {
-            val state by viewModel.uiState.collectAsStateWithLifecycle()
-            val snackbarHostState = remember { SnackbarHostState() }
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(snackbarHostState)
+            }
+        ) { padding ->
+            LoginScreen(
+                modifier = Modifier.padding(padding),
+                state = state,
+                onUsernameChange = viewModel::onUserNameChange,
+                onPasswordChange = viewModel::onPasswordChange,
+                onLoginClick = viewModel::login
+            )
+        }
 
-            AppTheme {
-                Scaffold(
-                    snackbarHost = {
-                        SnackbarHost(snackbarHostState)
+        LaunchedEffect(Unit) {
+            viewModel.events.collect { event ->
+                when (event) {
+                    is LoginUiEvent.ShowSnackbar -> {
+                        snackbarHostState.showSnackbar(
+                            event.message.asString(context)
+                        )
                     }
-                ) { padding ->
-                    LoginScreen(
-                        modifier = Modifier.padding(padding),
-                        state = state,
-                        onUsernameChange = viewModel::onUserNameChange,
-                        onPasswordChange = viewModel::onPasswordChange,
-                        onLoginClick = viewModel::login
-                    )
-                }
-           }
-
-
-            LaunchedEffect(state.errorMessage) {
-                state.errorMessage?.let {
-                    snackbarHostState.showSnackbar(it)
-                    viewModel.clearError()
                 }
             }
         }

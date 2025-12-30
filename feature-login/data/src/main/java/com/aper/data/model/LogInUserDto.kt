@@ -1,13 +1,15 @@
 package com.aper.data.model
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LogInUserDto(
-    @Json(name = "id") val id: Int,
-    @Json(name = "login") val login: String,
-    @Json(name = "name") val name: String?,
-    @Json(name = "avatar_url") val avatarUrl: String?,
-    @Json(name = "bio") val bio: String?,
-    @Json(name = "followers") val followers: Int?,
-    @Json(name = "following") val following: Int?
+    @SerialName("id") val id: Int,
+    @SerialName("login") val login: String,
+    @SerialName("name") val name: String? = null,
+    @SerialName("avatar_url") val avatarUrl: String? = null,
+    @SerialName("bio") val bio: String? = null,
+    @SerialName("followers") val followers: Int? = null,
+    @SerialName("following") val following: Int? = null
 )

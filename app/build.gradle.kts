@@ -22,16 +22,18 @@ android {
 
 dependencies {
 
-    implementation(project(":core-android"))
-    implementation(project(":core-domain"))
-    implementation(project(":app-network"))
-    implementation(project(":app-database"))
-    implementation(project(":feature-login"))
-    implementation(project(":feature-profile"))
-    implementation(project(":feature-user-details"))
-    implementation(project(":feature-settings"))
-    implementation(project(":feature-profile-repos"))
-    implementation(project(":feature-all-users"))
+    implementation(projects.appDatabase)
+    implementation(projects.appNetwork)
+    implementation(projects.coreDomain)
+    implementation(projects.coreAndroid)
+    implementation(projects.featureLogin)
+    implementation(projects.featureProfile)
+    implementation(projects.featureUserDetails)
+    implementation(projects.featureSettings)
+    implementation(projects.featureProfileRepos)
+    implementation(projects.featureAllUsers)
+
+
 
     // ---- Android Core ----
     implementation(libs.androidx.core.ktx)

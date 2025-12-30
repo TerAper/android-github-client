@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -27,24 +28,17 @@ class ProfileReposFragment : BaseComposeFragment() {
     private val bottomBarController: BottomBarController?
         get() = parentFragment?.parentFragment as? BottomBarController
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View =
-        ComposeView(requireContext()).apply {
-            setContent {
-                val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-                AppTheme {
-                    RepositoriesScreen(
-                        state = state,
-                        onRefresh = viewModel::refresh,
-                        onLoadNext = viewModel::loadNextPage
-                    )
-                }
-            }
-        }
+    @Composable
+    override fun ScreenContent() {
+        val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+        RepositoriesScreen(
+            state = state,
+            onRefresh = viewModel::refresh,
+            onLoadNext = viewModel::loadNextPage
+        )
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

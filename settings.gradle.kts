@@ -14,7 +14,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "GithubClient"
-
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
     ":app",
     ":core-domain",

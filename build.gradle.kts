@@ -8,6 +8,14 @@ plugins {
 }
 
 subprojects {
+    configurations.configureEach {
+        resolutionStrategy {
+            force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
+            force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+        }
+    }
+}
+subprojects {
 
     configurations.configureEach {
         resolutionStrategy {

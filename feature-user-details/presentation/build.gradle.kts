@@ -21,15 +21,15 @@ android {
 }
 
 dependencies {
+    implementation(projects.coreAndroid)
+    implementation(projects.featureUserDetails.domain)
+    implementation(projects.featureUserDetails.data)
 
-    implementation(project(":core-android"))
+
 
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.coil.compose)
 
-    // --- Project modules ---
-    implementation(project(":feature-user-details:domain"))
-    implementation(project(":feature-user-details:data"))
 
     // --- Android UI ---
     implementation(libs.androidx.appcompat)

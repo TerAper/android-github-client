@@ -26,9 +26,8 @@ android {
 
 dependencies {
 
-    implementation(project(":core-android"))
-    implementation(project(":core-domain"))
-
+    implementation(projects.coreAndroid)
+    implementation(projects.coreDomain)
 
     // --- Android UI ---
     implementation(libs.androidx.appcompat)

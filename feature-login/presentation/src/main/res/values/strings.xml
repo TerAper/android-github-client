@@ -5,4 +5,16 @@
     <string name="login_token_label">Personal Access Token</string>
     <string name="login_button">Sign In</string>
     <string name="login_bar_title">LogIn</string>
+
+    <string name="error_username_mismatch">
+        Username does not match the provided token
+    </string>
+
+    <string name="error_email_mismatch">
+        Email does not match the provided token
+    </string>
+
+    <string name="error_auth_failed">
+        Authentication failed
+    </string>
 </resources>

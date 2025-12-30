@@ -13,7 +13,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature-profile-repos:presentation"))
+    implementation(projects.featureProfileRepos.presentation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)

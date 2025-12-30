@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core-domain"))
+    implementation(projects.coreDomain)
 
     implementation(libs.javax.inject)
 

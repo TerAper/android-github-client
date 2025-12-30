@@ -1,17 +1,18 @@
 package com.aper.app_network.di
 
 import com.aper.app_network.interceptor.NetworkInterceptor
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
+import okhttp3.MediaType.Companion.toMediaType
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -19,12 +20,11 @@ object NetworkModule {
 
     private const val BASE_URL = "https://api.github.com/"
 
-    @Singleton
-    @Provides
-    fun provideMoshi(): Moshi =
-        Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
+    private val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+        explicitNulls = false
+    }
 
     @Singleton
     @Provides
@@ -40,12 +40,13 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(
         client: OkHttpClient,
-        moshi: Moshi
     ): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(
+                json.asConverterFactory("application/json".toMediaType())
+            )
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
 

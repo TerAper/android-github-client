@@ -13,7 +13,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature-user-details:presentation"))
+    implementation(projects.featureUserDetails.presentation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)

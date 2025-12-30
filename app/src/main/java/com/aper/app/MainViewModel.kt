@@ -24,7 +24,6 @@ class MainViewModel @Inject constructor(
         appSettingsData.observeTheme()
             .asState(viewModelScope, AppTheme.SYSTEM)
 
-
     val isLoggedInFlow: StateFlow<Boolean> =
         sessionData.observeIsLoggedIn()
             .asState(viewModelScope, false)

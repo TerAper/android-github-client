@@ -25,10 +25,12 @@ android {
 
 dependencies {
 
-    implementation(project(":core-domain"))
-    implementation(project(":core-android"))
-    implementation(project(":feature-login:domain"))
-    implementation(project(":feature-login:data"))
+
+    implementation(projects.coreDomain)
+    implementation(projects.coreAndroid)
+    implementation(projects.featureLogin.domain)
+    implementation(projects.featureLogin.data)
+
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))

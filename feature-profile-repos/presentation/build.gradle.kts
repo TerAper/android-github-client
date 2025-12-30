@@ -26,11 +26,11 @@ android {
 
 dependencies {
 
-    // --- Project modules ---
-    implementation(project(":core-android"))
-    implementation(project(":core-domain"))
-    implementation(project(":feature-profile-repos:domain"))
-    implementation(project(":feature-profile-repos:data"))
+    implementation(projects.coreAndroid)
+    implementation(projects.coreDomain)
+    implementation(projects.featureProfileRepos.domain)
+    implementation(projects.featureProfileRepos.data)
+
 
 
     // --- AndroidX ---

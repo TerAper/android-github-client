@@ -5,7 +5,7 @@ kotlin {
     jvmToolchain(17)
 }
 dependencies {
-    implementation(project(":core-domain"))
+    implementation(projects.coreDomain)
 
     implementation(libs.javax.inject)
     testImplementation(libs.junit)

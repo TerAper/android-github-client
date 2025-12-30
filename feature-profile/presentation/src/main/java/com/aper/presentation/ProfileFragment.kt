@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -22,7 +23,6 @@ import com.aper.presentation.event.ProfileUiEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
-import androidx.core.net.toUri
 import com.aper.core_android.ui.BaseComposeFragment
 import com.aper.feature_profile.presentation.R
 
@@ -52,30 +52,18 @@ class ProfileFragment : BaseComposeFragment() {
             }
         }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View =
-        ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-            )
 
-            setContent {
-                val username by viewModel.username.collectAsStateWithLifecycle()
-                val avatarUri by viewModel.avatarUri.collectAsStateWithLifecycle()
-
-                AppTheme {
-                    ProfileScreen(
-                        username = username ?: "Unknown",
-                        avatarUri = avatarUri,
-                        onAvatarClick = viewModel::onAvatarClick,
-                        onLogout = viewModel::logout
-                    )
-                }
-            }
-        }
+    @Composable
+    override fun ScreenContent() {
+        val username by viewModel.username.collectAsStateWithLifecycle()
+        val avatarUri by viewModel.avatarUri.collectAsStateWithLifecycle()
+        ProfileScreen(
+            username = username ?: "Unknown",
+            avatarUri = avatarUri,
+            onAvatarClick = viewModel::onAvatarClick,
+            onLogout = viewModel::logout
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

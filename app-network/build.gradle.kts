@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -20,13 +21,16 @@ android {
 
 dependencies {
 
-    implementation(project(":core-android"))
-    implementation(project(":core-domain"))    // ---- Core (session data, domain models) ----
+    implementation(projects.coreAndroid)
+    implementation(projects.coreDomain)
 
-    // ---- Retrofit + Moshi ----
+    // ---- Retrofit
     implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
-    implementation(libs.moshi.kotlin)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit.kotlinx.serialization)
+    implementation(libs.okhttp)
+
+
 
     // ---- Retrofit RxJava adapter ----
     implementation(libs.retrofit.rxjava3)

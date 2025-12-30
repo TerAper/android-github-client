@@ -25,11 +25,12 @@ android {
 
 dependencies {
 
-    implementation(project(":core-android"))
-    implementation(project(":core-domain"))
-    implementation(project(":feature-profile:domain"))
-    implementation(project(":feature-profile:data"))
-    implementation(project(":feature-settings:presentation"))
+    implementation(projects.coreAndroid)
+    implementation(projects.coreDomain)
+    implementation(projects.featureProfile.data)
+    implementation(projects.featureProfile.domain)
+    implementation(projects.featureSettings.presentation)
+
 
 
     implementation(libs.androidx.navigation.fragment.ktx)

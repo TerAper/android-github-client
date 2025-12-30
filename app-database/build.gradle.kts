@@ -18,8 +18,9 @@ android {
 
 dependencies {
 
-    implementation(project(":core-android"))
-    implementation(project(":core-domain"))
+    implementation(projects.coreAndroid)
+    implementation(projects.coreDomain)
+
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.room.rxjava3)

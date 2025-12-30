@@ -73,13 +73,6 @@ fun LoginScreen(
                 }
             }
 
-            state.errorMessage?.let {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = it,
-                    color = MaterialTheme.colorScheme.error
-                )
-            }
         }
     }
 }

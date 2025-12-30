@@ -24,8 +24,8 @@ class CryptoManager @Inject constructor() {
                     "${KeyProperties.BLOCK_MODE_GCM}/" +
                     KeyProperties.ENCRYPTION_PADDING_NONE
 
-        private const val IV_SIZE_BYTES = 12          // GCM standard
-        private const val AUTH_TAG_SIZE_BITS = 128    // GCM standard
+        private const val IV_SIZE_BYTES = 12
+        private const val AUTH_TAG_SIZE_BITS = 128
         private const val KEY_SIZE_BITS = 256
     }
 

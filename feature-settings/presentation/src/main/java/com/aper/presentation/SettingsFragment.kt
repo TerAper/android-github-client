@@ -1,11 +1,8 @@
 package com.aper.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.runtime.Composable
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.aper.core_android.ui.BaseComposeFragment
@@ -23,23 +20,11 @@ class SettingsFragment : BaseComposeFragment() {
     private val bottomBarController: com.aper.core_android.ui.BottomBarController?
         get() = parentFragment?.parentFragment as? com.aper.core_android.ui.BottomBarController
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-            )
-            setContent {
-                AppTheme {
-                    SettingsScreen(
-                        onThemeSelected = viewModel::onThemeSelected
-                    )
-                }
-            }
-        }
+    @Composable
+    override fun ScreenContent() {
+        SettingsScreen(
+            onThemeSelected = viewModel::onThemeSelected
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
