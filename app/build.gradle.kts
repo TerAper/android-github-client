@@ -1,72 +1,62 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.androidx.navigation.safeargs)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.yourname.githubclient"
+    namespace = "com.aper.app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.yourname.githubclient"
+        applicationId = "com.aper.app"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
     }
 
     buildFeatures {
         viewBinding = true
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 
 dependencies {
-    implementation("io.coil-kt:coil:2.4.0")
 
-    implementation(libs.converter.gson)
+    implementation(projects.appDatabase)
+    implementation(projects.appNetwork)
+    implementation(projects.coreDomain)
+    implementation(projects.coreAndroid)
+    implementation(projects.featureLogin)
+    implementation(projects.featureProfile)
+    implementation(projects.featureUserDetails)
+    implementation(projects.featureSettings)
+    implementation(projects.featureProfileRepos)
+    implementation(projects.featureAllUsers)
+
+
+
+    // ---- Android Core ----
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.material)
 
-    implementation(libs.androidx.navigation.fragment)
+    // ---- Splash Screen ----
+    implementation(libs.androidx.core.splashscreen)
+
+    // ---- Navigation (XML) ----
+    implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui)
 
-    implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.datastore.preferences)
+    // ---- Lifecycle ----
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.runtime)
 
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
+    // ---- Hilt ----
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 
-    implementation(libs.rxjava)
-    implementation(libs.rxandroid)
-
-    implementation(libs.retrofit)
-    implementation(libs.converter.moshi)
-    implementation(libs.moshi.kotlin)
-
+    // ---- Test ----
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso)
+
 }

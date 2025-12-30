@@ -1,0 +1,16 @@
+package com.aper.core_domain.util
+
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.*
+
+fun <T> Flow<T>.asState(
+    scope: CoroutineScope,
+    initial: T,
+    timeoutMs: Long = 5_000
+): StateFlow<T> =
+    distinctUntilChanged()
+        .stateIn(
+            scope = scope,
+            started = SharingStarted.WhileSubscribed(timeoutMs),
+            initialValue = initial
+        )
