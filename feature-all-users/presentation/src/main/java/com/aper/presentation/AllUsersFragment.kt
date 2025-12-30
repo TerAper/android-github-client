@@ -43,12 +43,12 @@ class AllUsersFragment : Fragment(R.layout.fragment_all_users) {
         viewModel.loadInitial()
     }
 
-    private fun setupToolbarAndBottomBar(){
+    private fun setupToolbarAndBottomBar() {
         toolbarController?.apply {
             showToolbar()
             setToolbarTitle(getString(R.string.all_users_title))
-            setSettingsEnabled(false,null)
-            setBackNavigationEnabled(false,null)
+            setSettingsEnabled(false, null)
+            setBackNavigationEnabled(false, null)
         }
         bottomBarController?.showBottomBar()
     }
@@ -97,6 +97,12 @@ class AllUsersFragment : Fragment(R.layout.fragment_all_users) {
 
                     binding.progressBar.isVisible = state.isLoading
                     binding.swipeRefresh.isRefreshing = state.isLoading
+
+                    binding.recyclerView.post {
+                        if (!binding.recyclerView.canScrollVertically(1) && state.users.isNotEmpty()) {
+                            viewModel.loadMore()
+                        }
+                    }
 
                 }
             }
