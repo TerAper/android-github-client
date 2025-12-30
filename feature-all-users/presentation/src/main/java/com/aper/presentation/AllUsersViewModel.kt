@@ -29,14 +29,16 @@ class AllUsersViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
 
-            try {
-                val users = getAllUsersUseCase(currentPage, pageSize)
+            runCatching {
+                getAllUsersUseCase(currentPage, pageSize)
+            }.onSuccess { users ->
                 _uiState.value = AllUsersUiState(
                     users = users,
-                    isLoading = false
+                    isLoading = false,
+                    hasMore = users.isNotEmpty()
                 )
-                currentPage++
-            } catch (e: Exception) {
+                if (users.isNotEmpty()) currentPage++
+            }.onFailure {
                 _uiState.value = _uiState.value.copy(isLoading = false)
             }
         }
@@ -44,24 +46,22 @@ class AllUsersViewModel @Inject constructor(
 
     fun loadMore() {
         val state = _uiState.value
-        if (state.isLoading || state.isLoadingMore) return
+        if (state.isLoading || state.isLoadingMore || !state.hasMore) return
 
         _uiState.value = state.copy(isLoadingMore = true)
 
         viewModelScope.launch {
-            try {
-                val users = getAllUsersUseCase(currentPage, pageSize)
-                if (users.isNotEmpty()) {
-                    _uiState.value = _uiState.value.copy(
-                        users = state.users + users,
-                        isLoadingMore = false
-                    )
-                    currentPage++
-                } else {
-                    _uiState.value = _uiState.value.copy(isLoadingMore = false)
-                }
-            } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(isLoadingMore = false)
+            runCatching {
+                getAllUsersUseCase(currentPage, pageSize)
+            }.onSuccess { users ->
+                _uiState.value = state.copy(
+                    users = state.users + users,
+                    isLoadingMore = false,
+                    hasMore = users.isNotEmpty()
+                )
+                if (users.isNotEmpty()) currentPage++
+            }.onFailure {
+                _uiState.value = state.copy(isLoadingMore = false)
             }
         }
     }
