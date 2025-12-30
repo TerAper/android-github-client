@@ -99,10 +99,7 @@ class AllUsersFragment : Fragment(R.layout.fragment_all_users) {
                     binding.swipeRefresh.isRefreshing = state.isLoading
 
                     binding.recyclerView.post {
-                        val canScroll = binding.recyclerView.canScrollVertically(1)
-                        if (state.hasMore && !canScroll && state.users.isNotEmpty()
-                            && !state.isLoading && !state.isLoadingMore
-                        ) {
+                        if (!binding.recyclerView.canScrollVertically(1) && state.users.isNotEmpty()) {
                             viewModel.loadMore()
                         }
                     }

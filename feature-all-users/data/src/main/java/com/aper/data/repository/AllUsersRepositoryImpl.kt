@@ -23,13 +23,12 @@ class AllUsersRepositoryImpl @Inject constructor(
 
     override suspend fun getUsers(page: Int, pageSize: Int): List<AllUsersUser> {
         return if (networkChecker.isOnline()) {
-
-            val apiUsers = api.getUsers(page, perPage = pageSize)
-
-            if (page == 0 && apiUsers.isNotEmpty()) {
+            if (page == 0) {
                 clearCachedUsers()
                 clearCachedUsersRepos()
             }
+            val lastId = userDao.getLastUserId() ?: 0
+            val apiUsers = api.getUsers(lastId, perPage = pageSize)
 
             val entityUsers = apiUsers.map { it.toEntity() }
             userDao.insertUsers(entityUsers)
