@@ -6,6 +6,13 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+configurations.configureEach {
+    resolutionStrategy {
+        force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
+        force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    }
+}
+
 android {
     namespace = "com.aper.feature_all_users.data"
     compileSdk = 35
@@ -13,6 +20,7 @@ android {
     defaultConfig {
         minSdk = 24
     }
+
 }
 
 dependencies {

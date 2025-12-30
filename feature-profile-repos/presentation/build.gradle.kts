@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
 
     // --- Compose Pull-To-Refresh (Material3 experimental) ---
-    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.material3)
 
 
     // --- Lifecycle ---

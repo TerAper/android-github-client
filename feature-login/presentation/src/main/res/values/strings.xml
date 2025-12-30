@@ -7,12 +7,12 @@
     <string name="login_bar_title">LogIn</string>
 
     <string name="error_username_mismatch">
-        Username does not match the provided token
-    </string>
+    Username "%s" does not match the provided token
+</string>
 
     <string name="error_email_mismatch">
-        Email does not match the provided token
-    </string>
+    Email "%s" does not match the provided token
+</string>
 
     <string name="error_auth_failed">
         Authentication failed

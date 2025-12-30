@@ -13,13 +13,32 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app-database" />
             <option value="$PROJECT_DIR$/app-network" />
-            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core-android" />
+            <option value="$PROJECT_DIR$/core-domain" />
             <option value="$PROJECT_DIR$/feature-all-users" />
+            <option value="$PROJECT_DIR$/feature-all-users/data" />
+            <option value="$PROJECT_DIR$/feature-all-users/domain" />
+            <option value="$PROJECT_DIR$/feature-all-users/presentation" />
             <option value="$PROJECT_DIR$/feature-login" />
+            <option value="$PROJECT_DIR$/feature-login/data" />
+            <option value="$PROJECT_DIR$/feature-login/domain" />
+            <option value="$PROJECT_DIR$/feature-login/presentation" />
             <option value="$PROJECT_DIR$/feature-profile" />
             <option value="$PROJECT_DIR$/feature-profile-repos" />
+            <option value="$PROJECT_DIR$/feature-profile-repos/data" />
+            <option value="$PROJECT_DIR$/feature-profile-repos/domain" />
+            <option value="$PROJECT_DIR$/feature-profile-repos/presentation" />
+            <option value="$PROJECT_DIR$/feature-profile/data" />
+            <option value="$PROJECT_DIR$/feature-profile/domain" />
+            <option value="$PROJECT_DIR$/feature-profile/presentation" />
             <option value="$PROJECT_DIR$/feature-settings" />
+            <option value="$PROJECT_DIR$/feature-settings/data" />
+            <option value="$PROJECT_DIR$/feature-settings/domain" />
+            <option value="$PROJECT_DIR$/feature-settings/presentation" />
             <option value="$PROJECT_DIR$/feature-user-details" />
+            <option value="$PROJECT_DIR$/feature-user-details/data" />
+            <option value="$PROJECT_DIR$/feature-user-details/domain" />
+            <option value="$PROJECT_DIR$/feature-user-details/presentation" />
           </set>
         </option>
       </GradleProjectSettings>

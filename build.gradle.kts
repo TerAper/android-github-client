@@ -8,22 +8,6 @@ plugins {
 }
 
 subprojects {
-    configurations.configureEach {
-        resolutionStrategy {
-            force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
-            force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-        }
-    }
-}
-subprojects {
-
-    configurations.configureEach {
-        resolutionStrategy {
-            force("org.jetbrains.kotlin:kotlin-stdlib:${libs.versions.kotlin.get()}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${libs.versions.kotlin.get()}")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${libs.versions.kotlin.get()}")
-        }
-    }
 
     plugins.withId("org.jetbrains.kotlin.android") {
         extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension>("kotlin") {

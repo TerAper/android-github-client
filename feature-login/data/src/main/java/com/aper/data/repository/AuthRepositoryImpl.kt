@@ -31,11 +31,11 @@ class AuthRepositoryImpl @Inject constructor(
                     .firstOrNull { it.email.equals(login, ignoreCase = true) }
 
                 if (matchedEmail == null) {
-                    throw AuthException.EmailMismatch
+                    throw AuthException.EmailMismatch()
                 }
             } else {
                 if (!user.login.equals(login, ignoreCase = true)) {
-                    throw AuthException.UsernameMismatch
+                    throw AuthException.UsernameMismatch()
                 }
             }
 

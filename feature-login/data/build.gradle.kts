@@ -7,6 +7,13 @@ plugins {
 
 }
 
+configurations.configureEach {
+    resolutionStrategy {
+        force("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3")
+        force("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    }
+}
+
 android {
     namespace = "com.aper.feature_login.data"
     compileSdk = 35
@@ -17,7 +24,6 @@ android {
 }
 
 dependencies {
-
     implementation(projects.coreAndroid)
     implementation(projects.coreDomain)
     implementation(projects.featureLogin.domain)

@@ -39,7 +39,7 @@ dependencies {
     implementation(libs.rxjava)
 
     // ---- Coroutines (for suspend APIs) ----
-    implementation(libs.coroutines.core)
+    implementation(libs.kotlinx.coroutines.core)
 
     // ---- Hilt ----
     implementation(libs.hilt.android)

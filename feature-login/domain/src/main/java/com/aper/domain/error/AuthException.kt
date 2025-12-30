@@ -1,10 +1,10 @@
 package com.aper.domain.error
 
-sealed class AuthException : Exception() {
+sealed class AuthException(cause: Throwable? = null) : Exception(cause) {
 
-    data object UsernameMismatch : AuthException()
+    class UsernameMismatch(cause: Throwable? = null) : AuthException(cause)
 
-    data object EmailMismatch : AuthException()
+    class EmailMismatch(cause: Throwable? = null) : AuthException(cause)
 
-    data class Unknown(override val cause: Throwable?) : AuthException()
+    class Unknown(cause: Throwable? = null) : AuthException(cause)
 }
